@@ -1,3 +1,13 @@
+"""
+Bubble Sort (冒泡排序):
+
+Time Complexity:
+Best Case: Θ(n)
+Average Case: Θ(n²)
+Worst Case: Θ(n²)
+Space Complexity: Θ(1)
+"""
+
 def bubble_sort(lis):
     unsorted_until_index = len(lis)-1 #该索引之前的数据都没排过序
     isSorted = False
