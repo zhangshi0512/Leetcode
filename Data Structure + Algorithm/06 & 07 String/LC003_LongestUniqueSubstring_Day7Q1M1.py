@@ -39,3 +39,6 @@ def max_unique_length(str):
 
 
 print(max_unique_length('pqbrstbuvwpvy'))
+print(max_unique_length('abcabcbb'))
+print(max_unique_length('bbbbb'))
+print(max_unique_length('pwwkew'))
