@@ -1,6 +1,6 @@
 # Big O Analysis
 
-Certainly! Here's an updated table that includes the Big O notation for the time and space complexity of common operations in a singly linked list:
+Here's an updated table that includes the Big O notation for the time and space complexity of common operations in a singly linked list:
 
 | Operation                           | Time Complexity | Space Complexity |
 | ----------------------------------- | --------------- | ---------------- |
