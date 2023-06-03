@@ -58,3 +58,12 @@ def merge_sort(arr):
 # 随着N的增长，归并排序的效率用大O表示是O(N log(N))，这比前面的O(N^2)要高效得多。
 
 # 但是，由于其需要额外的存储空间，所以空间复杂性为O(N)。
+
+ol1 = [4, 2, 7, 1, 3]
+ol2 = [65, 55, 45, 35, 25, 15, 10]
+
+print(ol1)
+print(merge_sort(ol1))
+print()
+print(ol2)
+print(merge_sort(ol2))

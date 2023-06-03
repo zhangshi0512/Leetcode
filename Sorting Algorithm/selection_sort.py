@@ -35,3 +35,12 @@ def selection_sort(arr):
 # 所以在最坏情况下，对于一个包含N个元素的数组，选择排序所需要的最长步骤是N-1次交换和N-1次比较。
 
 # 随着N的增长，选择排序的效率用大O表示是O(N^2)。因此它并不高效。
+
+ol1 = [4, 2, 7, 1, 3]
+ol2 = [65, 55, 45, 35, 25, 15, 10]
+
+print(ol1)
+print(selection_sort(ol1))
+print()
+print(ol2)
+print(selection_sort(ol2))
