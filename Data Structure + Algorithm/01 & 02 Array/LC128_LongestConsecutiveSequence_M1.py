@@ -51,6 +51,8 @@ def longestConsecutive(nums):
         
     return longest
 
+# Time Complexity: O(n log n), because sorting is O(n log n) and scanning the numbers is O(n).
+# Space Complexity: O(1) or O(n), depending on the specific nature of the sort implementation.
 
 print(4, longestConsecutive([100,4,200,1,3,2]))
 print(9, longestConsecutive([0,3,7,2,5,8,4,6,0,1]))
