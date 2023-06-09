@@ -22,7 +22,6 @@ n == nums.length
 
 # Two Pointers Solution
 
-
 def findMaxAverage(nums, k):
     # base case: when len(nums) == k
     if len(nums) == k:
@@ -49,7 +48,6 @@ print(5.00, findMaxAverage([5], 1))
 print()
 
 # Sliding Window Solution
-
 
 def findMaxAverageOptimized(nums, k):
     # 初始化前k个数字的总和
