@@ -296,3 +296,21 @@ class Solution:
 
         return ans
 ```
+
+# Prefix Sum
+
+When a subarray starts at index 0, it is considered a "prefix" of the array. A prefix sum represents the sum of all prefixes.
+
+Prefix sum is a technique that can be used on arrays (of numbers). The idea is to create an array prefix where prefix[i] is the sum of all elements up to the index i (inclusive). For example, given nums = [5, 2, 1, 6, 3, 8], we would have prefix = [5, 7, 8, 14, 17, 25].
+
+Prefix sums allow us to find the sum of any subarray in O(1). If we want the sum of the subarray from i to j (inclusive), then the answer is prefix[j] - prefix[i - 1], or prefix[j] - prefix[i] + nums[i] if you don't want to deal with the out of bounds case when i = 0.
+
+Building a prefix sum is very simple. Here's some pseudocode:
+
+```
+Given an array nums,
+
+prefix = [nums[0]]
+for (int i = 1; i < nums.length; i++)
+    prefix.append(nums[i] + prefix[prefix.length - 1])
+```
