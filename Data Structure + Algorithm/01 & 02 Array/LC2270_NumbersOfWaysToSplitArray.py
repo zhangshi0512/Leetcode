@@ -36,7 +36,7 @@ def waysToSplitArray(nums):
 
     ans = 0 # 初始化计数变量
     # 开始遍历prefix sum数组, 注意条件要求左侧之和大于右侧之和。
-    # 需要排除在末位的切分
+    # 需要排除在末位的切分, 因为此时右侧为空集
     for j in range(len(nums) - 1):
         left = prefix[j]
         right = prefix[-1] - left
@@ -47,3 +47,27 @@ def waysToSplitArray(nums):
 
 print(2, waysToSplitArray([10,4,-8,7]))
 print(2, waysToSplitArray([2,3,1,0]))
+
+print()
+
+# Do we really need the prefix array?
+# No! We can apply the concept without using prefix array.
+# The method below only need 1 for loop to iterate through the nums array.
+def waysToSplitArray2(nums):
+    # 初始化 计数变量 和 左侧之和
+    ans = left = 0
+    # 直接先算出整个数列的和
+    total = sum(nums)
+
+    # 遍历原数组一次，逐个计算每一个index对应的左右之和
+    # 比较并计数
+    for i in range(len(nums)-1):
+        left += nums[i]
+        right = total - left
+        if left >= right:
+            ans += 1
+    
+    return ans
+
+print(2, waysToSplitArray2([10,4,-8,7]))
+print(2, waysToSplitArray2([2,3,1,0]))
