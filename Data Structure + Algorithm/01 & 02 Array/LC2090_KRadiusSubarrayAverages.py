@@ -55,7 +55,26 @@ print([100000], kRadiusSubarrayAverages([100000], 0))
 print([-1], kRadiusSubarrayAverages([8], 100000))
 print()
 
-# 解法二: 滑动窗口 (O(n)复杂度)
+# 解法二：prefix sum array
+def kRadiusSubarrayAverages_prefixSum(nums, k):
+    n = len(nums)
+    avgs = [-1]*n
+    prefix_sum = [0]*(n+1)
+    # 创建前缀和数组
+    for i in range(n):
+        prefix_sum[i+1] = prefix_sum[i] + nums[i]
+    # 计算每个元素的k-半径平均数
+    for i in range(k, n-k):
+        avgs[i] = (prefix_sum[i+k+1] - prefix_sum[i-k]) // (2*k+1)
+    
+    return avgs
+
+print([-1,-1,-1,5,4,4,-1,-1,-1], kRadiusSubarrayAverages_prefixSum([7,4,3,9,1,8,5,2,6], 3))
+print([100000], kRadiusSubarrayAverages_prefixSum([100000], 0))
+print([-1], kRadiusSubarrayAverages_prefixSum([8], 100000))
+print()
+
+# 解法三: 滑动窗口 (O(n)复杂度)
 def kRadiusSubarrayAverages_Optimized(nums, k):
     n = len(nums)
     avgs = [-1]*n
