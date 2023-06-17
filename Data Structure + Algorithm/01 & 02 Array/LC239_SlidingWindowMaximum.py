@@ -38,7 +38,8 @@ Constraints:
 # Brute Force
 # T = O(n^2)
 
-from collections import deque
+
+import collections
 
 
 def MaxSlidingWindow(nums, k):
@@ -60,7 +61,7 @@ print()
 
 
 def MaxSlidingWindow2(nums, k):
-    deq = deque()
+    deq = collections.deque()
     result = []
 
     for i in range(len(nums)):
