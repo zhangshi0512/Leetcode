@@ -50,3 +50,68 @@ Here's a table listing the commonly used hash table methods in Python, along wit
 Please note that the code demonstrations are simplified examples and may require appropriate initialization of the `my_dict` and `key` variables.
 
 These are some of the most commonly used methods for hash tables in Python. Each method serves a different purpose and provides flexibility in manipulating the key-value pairs stored in the dictionary.
+
+## dict vs default dict
+
+Here's a comparison table showcasing the methods of the Python `dict` class and the `defaultdict` class from the `collections` module, along with a short code demo for each method:
+
+| Method                          | `dict`                                                                                                                                   | `defaultdict`                                                                                                                                                      |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `dict[key]`                     | Returns the value associated with `key` in the dictionary.                                                                               | Returns the value associated with `key` in the dictionary, or the default value if the key is not present.                                                         |
+| `dict.get(key, default)`        | Returns the value associated with `key` in the dictionary. If `key` is not found, returns `default`.                                     | Returns the value associated with `key` in the dictionary. If `key` is not found, returns the default value for the specified data type.                           |
+| `dict[key] = value`             | Assigns `value` to `key` in the dictionary, overwriting any previous value.                                                              | Assigns `value` to `key` in the dictionary, overwriting any previous value.                                                                                        |
+| `del dict[key]`                 | Removes `key` and its associated value from the dictionary.                                                                              | Removes `key` and its associated value from the dictionary.                                                                                                        |
+| `dict.keys()`                   | Returns a list of all the keys in the dictionary.                                                                                        | Returns a list of all the keys in the dictionary.                                                                                                                  |
+| `dict.values()`                 | Returns a list of all the values in the dictionary.                                                                                      | Returns a list of all the values in the dictionary.                                                                                                                |
+| `dict.items()`                  | Returns a list of all key-value pairs in the dictionary as tuples.                                                                       | Returns a list of all key-value pairs in the dictionary as tuples.                                                                                                 |
+| `dict.clear()`                  | Removes all the key-value pairs from the dictionary.                                                                                     | Removes all the key-value pairs from the dictionary.                                                                                                               |
+| `len(dict)`                     | Returns the number of key-value pairs in the dictionary.                                                                                 | Returns the number of key-value pairs in the dictionary.                                                                                                           |
+| `defaultdict[key]`              | Returns the value associated with `key` in the dictionary. If `key` is not found, returns the default value for the specified data type. | Returns the value associated with `key` in the dictionary. If `key` is not found, creates a new key-value pair with the default value for the specified data type. |
+| `defaultdict.get(key, default)` | Returns the value associated with `key` in the dictionary. If `key` is not found, returns `default`.                                     | Returns the value associated with `key` in the dictionary. If `key` is not found, returns the default value for the specified data type.                           |
+| `defaultdict[key] = value`      | Assigns `value` to `key` in the dictionary, overwriting any previous value.                                                              | Assigns `value` to `key` in the dictionary, overwriting any previous value.                                                                                        |
+| `del defaultdict[key]`          | Removes `key` and its associated value from the dictionary.                                                                              | Removes `key` and its associated value from the dictionary.                                                                                                        |
+| `defaultdict.keys()`            | Returns a list of all the keys in the dictionary.                                                                                        | Returns a list of all the keys in the dictionary.                                                                                                                  |
+| `defaultdict.values()`          | Returns a list of all the values in the dictionary.                                                                                      | Returns a list of all the values in the dictionary.                                                                                                                |
+| `defaultdict.items()`           | Returns a list of all key-value pairs in the dictionary as tuples.                                                                       | Returns a list of all key-value pairs in the dictionary as tuples.                                                                                                 |
+| `defaultdict.clear()`           | Removes all the key-value pairs from the dictionary.                                                                                     | Removes all the key-value pairs from the dictionary.                                                                                                               |
+| `len(defaultdict)`              | Returns the number of key-value pairs in the dictionary.                                                                                 | Returns the number of key-value pairs in the dictionary.                                                                                                           |
+
+Here's a short code demo illustrating the usage of these methods:
+
+```python
+from collections import defaultdict
+
+# Python dictionary
+my_dict = {
+    'apple': 3,
+    'banana': 5,
+}
+
+print(my_dict['apple'])  # Output: 3
+print(my_dict.get('banana', 0))  # Output: 5
+my_dict['orange'] = 2
+print(my_dict)  # Output: {'apple': 3, 'banana': 5, 'orange': 2}
+del my_dict['banana']
+print(my_dict)  # Output: {'apple': 3, 'orange': 2}
+print(list(my_dict.keys()))  # Output: ['apple', 'orange']
+print(list(my_dict.values()))  # Output: [3, 2]
+print(list(my_dict.items()))  # Output: [('apple', 3), ('orange', 2)]
+my_dict.clear()
+print(my_dict)  # Output: {}
+
+# defaultdict
+my_defaultdict = defaultdict(int)
+print(my_defaultdict['apple'])  # Output: 0
+print(my_defaultdict.get('banana', 0))  # Output: 0
+my_defaultdict['orange'] = 2
+print(my_defaultdict)  # Output: defaultdict(<class 'int'>, {'apple': 0, 'orange': 2})
+del my_defaultdict['apple']
+print(my_defaultdict)  # Output: defaultdict(<class 'int'>, {'orange': 2})
+print(list(my_defaultdict.keys()))  # Output: ['orange']
+print(list(my_defaultdict.values()))  # Output: [2]
+print(list(my_defaultdict.items()))  # Output: [('orange', 2)]
+my_defaultdict.clear()
+print(my_defaultdict)  # Output: defaultdict(<class 'int'>, {})
+```
+
+In the above code, both `my_dict` and `my_defaultdict` are initialized as empty dictionaries. The code demonstrates various dictionary operations such as accessing values, adding and removing key-value pairs, and retrieving keys, values, and items. The `defaultdict` is instantiated with an `int` factory, which sets the default value for any non-existing key to zero.
