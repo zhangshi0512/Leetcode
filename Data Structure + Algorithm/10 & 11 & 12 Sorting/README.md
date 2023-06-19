@@ -117,3 +117,20 @@ def merge_sort(arr):
             k += 1
     return arr  # 返回排序后的数组
 ```
+
+5. **Quick Sort (快速排序):**
+
+```python
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        # 选择一个基准元素
+        pivot = arr[0]
+        # 分割数组为两个子数组，小于等于基准元素的放在左边，大于基准元素的放在右边
+        left = [x for x in arr[1:] if x <= pivot]
+        right = [x for x in arr[1:] if x > pivot]
+        # 递归地对子数组进行快速排序
+        return quicksort(left) + [pivot] + quicksort(right)
+
+```

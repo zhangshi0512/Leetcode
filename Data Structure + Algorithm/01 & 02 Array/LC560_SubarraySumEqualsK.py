@@ -40,3 +40,21 @@ def subarraySum(nums, k):
 
 print(2, subarraySum([1,1,1], 2))
 print(2, subarraySum([1,2,3], 3))
+print()
+
+from collections import defaultdict
+
+def subarraySum2(nums, k):
+    counts = defaultdict(int) # 使用defaultdict，不存在的键对应的值为0
+    counts[0] = 1
+    ans = curr = 0
+
+    for num in nums:
+        curr += num # 累加当前数字
+        ans += counts[curr - k] # 如果累计和减去目标值k的结果存在于哈希表中，将对应的次数加到结果中
+        counts[curr] += 1 # 将当前累计和加入哈希表
+
+    return ans
+
+print(2, subarraySum2([1,1,1], 2))
+print(2, subarraySum2([1,2,3], 3))
