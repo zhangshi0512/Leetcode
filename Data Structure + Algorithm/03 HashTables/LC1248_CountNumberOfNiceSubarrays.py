@@ -60,17 +60,18 @@ print()
 # S = O(1)
 
 def numberOfSubarrays2(nums, k):
+    # 初始化前缀和数组，长度为 len(nums)+1，以便处理边界情况
     prefix_sums = [0]*(len(nums)+1)
     res = odd_count = 0
-
     for i in range(len(nums)):
+        # 如果当前数字为奇数，odd_count加1
         if nums[i] % 2 == 1:
             odd_count += 1
+        # 如果当前的奇数数量大于等于 k，那么就可以从前缀和数组中取出结果累加到 res
         if odd_count >= k:
             res += prefix_sums[odd_count - k]
-
+        # 每次循环结束，更新当前奇数数量的前缀和数量
         prefix_sums[odd_count] += 1
-
     return res
 
 print(2, numberOfSubarrays2([1,1,2,1,1],3))
