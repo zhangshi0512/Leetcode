@@ -29,6 +29,23 @@ Constraints:
 strs[i] consists of lowercase English letters.
 """
 
+from collections import defaultdict
+
+
+def groupAnagrams(strs):
+    groups = defaultdict(list)
+    for s in strs:
+        key = "".join(sorted(s))
+        groups[key].append(s)
+
+    return list(groups.values())
+
+
+print(groupAnagrams(['arc', 'abc', 'car', 'cat', 'act', 'acb', 'atc']))
+print(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))
+print()
+
+
 def group_anagrams(strings):
     if len(strings) == 0:
         return []
@@ -42,6 +59,5 @@ def group_anagrams(strings):
     return list(hash.values())
 
 
-print(group_anagrams(['arc','abc','car','cat','act','acb','atc']))
-
-
+print(group_anagrams(['arc', 'abc', 'car', 'cat', 'act', 'acb', 'atc']))
+print(group_anagrams(["eat", "tea", "tan", "ate", "nat", "bat"]))

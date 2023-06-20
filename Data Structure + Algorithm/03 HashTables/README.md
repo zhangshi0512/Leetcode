@@ -115,3 +115,5 @@ print(my_defaultdict)  # Output: defaultdict(<class 'int'>, {})
 ```
 
 In the above code, both `my_dict` and `my_defaultdict` are initialized as empty dictionaries. The code demonstrates various dictionary operations such as accessing values, adding and removing key-value pairs, and retrieving keys, values, and items. The `defaultdict` is instantiated with an `int` factory, which sets the default value for any non-existing key to zero.
+
+## Counter
