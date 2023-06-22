@@ -25,16 +25,25 @@ Constraints:
 s consists of English letters, digits, symbols and spaces.
 """
 
+
 def max_unique_length(str):
     max_len = 0
     start = 0
-    seen = {}
+    seen = {}  # store each char and its index into dict seen
     for i in range(len(str)):
         char = str[i]
+        # found repeated char
         if char in seen:
-            start = max(start,seen[char]+1)
-        max_len = max(max_len,i-start+1)
-        seen[char]=i
+            # Update the start position of the substring
+            # to be the maximum between the current start position
+            # and the next position of the last occurrence of
+            # the current character
+            start = max(start, seen[char]+1)
+        # Update the max_len to be the maximum between the current
+        # max_len and the length of the current substring
+        max_len = max(max_len, i-start+1)
+        # if found unique char, store its index
+        seen[char] = i
     return max_len
 
 
