@@ -30,7 +30,8 @@ class ListNode:
 
 
 class Solution:
-    def reverseList(self, head):
+    # Iterative Approach
+    def reverseListIterative(self, head):
         prev = None
         curr = head
 
@@ -42,6 +43,7 @@ class Solution:
 
         return prev
 
+    # Recursive Approach
     def reverseListRecursive(self, head):
         if not head or not head.next:
             return head
@@ -53,14 +55,14 @@ class Solution:
 
 # Test Cases
 solution = Solution()
-
+print("Iterative Approach: ")
 # Test Case 1
 head1 = ListNode(1)
 head1.next = ListNode(2)
 head1.next.next = ListNode(3)
 head1.next.next.next = ListNode(4)
 head1.next.next.next.next = ListNode(5)
-result1 = solution.reverseList(head1)
+result1 = solution.reverseListIterative(head1)
 output1 = []
 current = result1
 while current:
@@ -71,7 +73,7 @@ print(output1)  # Expected: [5, 4, 3, 2, 1]
 # Test Case 2
 head2 = ListNode(1)
 head2.next = ListNode(2)
-result2 = solution.reverseList(head2)
+result2 = solution.reverseListIterative(head2)
 output2 = []
 current = result2
 while current:
@@ -81,10 +83,48 @@ print(output2)  # Expected: [2, 1]
 
 # Test Case 3
 head3 = None
-result3 = solution.reverseList(head3)
+result3 = solution.reverseListIterative(head3)
 output3 = []
 current = result3
 while current:
     output3.append(current.val)
     current = current.next
 print(output3)  # Expected: []
+print()
+##############################################
+print("Recursive Approach: ")
+# Test Case 1
+head1 = ListNode(1)
+head1.next = ListNode(2)
+head1.next.next = ListNode(3)
+head1.next.next.next = ListNode(4)
+head1.next.next.next.next = ListNode(5)
+result1 = solution.reverseListRecursive(head1)
+output1 = []
+current = result1
+while current:
+    output1.append(current.val)
+    current = current.next
+print(output1)  # Expected: [5, 4, 3, 2, 1]
+
+# Test Case 2
+head2 = ListNode(1)
+head2.next = ListNode(2)
+result2 = solution.reverseListRecursive(head2)
+output2 = []
+current = result2
+while current:
+    output2.append(current.val)
+    current = current.next
+print(output2)  # Expected: [2, 1]
+
+# Test Case 3
+head3 = None
+result3 = solution.reverseListRecursive(head3)
+output3 = []
+current = result3
+while current:
+    output3.append(current.val)
+    current = current.next
+print(output3)  # Expected: []
+print()
