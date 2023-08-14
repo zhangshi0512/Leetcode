@@ -22,3 +22,109 @@
 | Behavioral   | Strategy                | Define a family of algorithms, encapsulate each one, and make them interchangeable.                                                                      | An algorithm varies independently from clients that use it.                                                                    | Define a common interface for all supported algorithms.                                                                                                          | `java.util.Comparator`                                                                                                                          |
 | Behavioral   | Template Method         | Define the skeleton of an algorithm in an operation, deferring some steps to subclasses.                                                                 | Algorithms can have common parts but also require specialization.                                                              | Define the parts of the algorithm that are invariant in the superclass, and encapsulate the variable parts in methods that are supplied by subclasses.           | `java.io.InputStream`                                                                                                                           |
 | Behavioral   | Visitor                 | Represent an operation to be performed on the elements of an object structure.                                                                           | Different operations need to be performed on the objects in a complex structure at runtime.                                    | The visitor pattern lets you apply one or more operation to a set of objects at runtime without having the operations tightly coupled with the object structure. | `javax.lang.model.element.Element` and `javax.lang.model.element.ElementVisitor`                                                                |
+
+# Visualization of Design Patterns
+
+1. **Abstract Factory**
+
+```mermaid
+classDiagram
+    AbstractFactory <|-- ConcreteFactory1
+    AbstractFactory <|-- ConcreteFactory2
+    AbstractFactory : +createProductA()
+    AbstractFactory : +createProductB()
+    ConcreteFactory1 : +createProductA()
+    ConcreteFactory1 : +createProductB()
+    ProductA <.. ConcreteFactory1
+    ProductB <.. ConcreteFactory1
+```
+
+2. **Builder**
+
+```mermaid
+classDiagram
+    Director -- Builder : constructs
+    Builder <|-- ConcreteBuilder
+    Builder : +buildPart()
+    ConcreteBuilder : +buildPart()
+    ConcreteBuilder : +getResult()
+```
+
+3. **Factory Method**
+
+```mermaid
+classDiagram
+    Creator <|-- ConcreteCreator
+    Creator : +factoryMethod()
+    Product <.. Creator : creates
+    ConcreteProduct <.. ConcreteCreator : creates
+```
+
+4. **Prototype**
+
+```mermaid
+classDiagram
+    Prototype <|.. ConcretePrototype
+    Prototype : +clone()
+    Client -- Prototype : uses
+```
+
+5. **Singleton**
+
+```mermaid
+classDiagram
+    Singleton : -instance
+    Singleton : +getInstance()
+```
+
+6. **Adapter**
+
+```mermaid
+classDiagram
+    Target <|-- Adapter
+    Adapter o-- Adaptee
+    Client -- Target
+```
+
+7. **Bridge**
+
+```mermaid
+classDiagram
+    Abstraction <|-- RefinedAbstraction
+    Abstraction o-- Implementor
+    Implementor <|-- ConcreteImplementor
+```
+
+8. **Composite**
+
+```mermaid
+classDiagram
+    Component <|-- Leaf
+    Component <|-- Composite
+    Composite o-- Component
+```
+
+9. **Facade**
+
+```mermaid
+classDiagram
+    Client -- Facade
+    Facade o-- Subsystem1
+    Facade o-- Subsystem2
+```
+
+10. **Observer**
+
+```mermaid
+classDiagram
+    Subject <|-- ConcreteSubject
+    Observer <|.. ConcreteObserver
+    Subject : +attach(Observer)
+    Subject : +detach(Observer)
+    Subject : +notify()
+    ConcreteSubject : +getState()
+    ConcreteSubject : +setState()
+    ConcreteObserver o-- ConcreteSubject
+```
+
+This should give you an idea for visual representation of the design patterns using Mermaid UML diagrams. Remember, the beauty of design patterns is that they're abstract, so these diagrams provide a high-level understanding. In actual implementations, the details might vary based on requirements.
