@@ -25,6 +25,10 @@
 
 # Visualization of Design Patterns
 
+Certainly! I'll group and number the diagrams under their respective categories.
+
+### Creational Patterns
+
 1. **Abstract Factory**
 
 ```mermaid
@@ -33,8 +37,6 @@ classDiagram
     AbstractFactory <|-- ConcreteFactory2
     AbstractFactory : +createProductA()
     AbstractFactory : +createProductB()
-    ConcreteFactory1 : +createProductA()
-    ConcreteFactory1 : +createProductB()
     ProductA <.. ConcreteFactory1
     ProductB <.. ConcreteFactory1
 ```
@@ -77,6 +79,8 @@ classDiagram
     Singleton : +getInstance()
 ```
 
+### Structural Patterns
+
 6. **Adapter**
 
 ```mermaid
@@ -104,7 +108,17 @@ classDiagram
     Composite o-- Component
 ```
 
-9. **Facade**
+9. **Decorator**
+
+```mermaid
+classDiagram
+    Component <|-- ConcreteComponent
+    Component <|-- Decorator
+    Decorator o-- Component
+    Decorator <|-- ConcreteDecorator
+```
+
+10. **Façade**
 
 ```mermaid
 classDiagram
@@ -113,7 +127,88 @@ classDiagram
     Facade o-- Subsystem2
 ```
 
-10. **Observer**
+11. **Flyweight**
+
+```mermaid
+classDiagram
+    FlyweightFactory -- Flyweight : gets
+    Flyweight <|.. ConcreteFlyweight
+    Client -- FlyweightFactory : uses
+```
+
+12. **Proxy**
+
+```mermaid
+classDiagram
+    Subject <|-- RealSubject
+    Subject <|-- Proxy
+    Client -- Proxy
+    Proxy o-- RealSubject
+```
+
+### Behavior Patterns
+
+13. **Chain-of-responsibility**
+
+```mermaid
+classDiagram
+    Handler <|-- ConcreteHandler1
+    Handler <|-- ConcreteHandler2
+    Handler : +setSuccessor(Handler)
+    Handler : +handleRequest()
+    Client -- Handler
+```
+
+14. **Command**
+
+```mermaid
+classDiagram
+    Command <|.. ConcreteCommand
+    Client -- Command
+    Command o-- Receiver : requests
+    Invoker -- Command : invokes
+```
+
+15. **Interpreter**
+
+```mermaid
+classDiagram
+    AbstractExpression <|.. TerminalExpression
+    AbstractExpression <|.. NonterminalExpression
+    AbstractExpression : +interpret(Context)
+    Client -- AbstractExpression : uses
+```
+
+16. **Iterator**
+
+```mermaid
+classDiagram
+    Aggregate <|-- ConcreteAggregate
+    Iterator <|.. ConcreteIterator
+    Aggregate : +createIterator()
+    ConcreteIterator -- ConcreteAggregate
+```
+
+17. **Mediator**
+
+```mermaid
+classDiagram
+    Mediator <|-- ConcreteMediator
+    Colleague <|-- ConcreteColleague1
+    Colleague <|-- ConcreteColleague2
+    Colleague o-- Mediator : communicates
+```
+
+18. **Memento**
+
+```mermaid
+classDiagram
+    Originator : +setMemento(Memento)
+    Originator : +createMemento() : Memento
+    Caretaker o-- Memento : holds
+```
+
+19. **Observer**
 
 ```mermaid
 classDiagram
@@ -127,4 +222,46 @@ classDiagram
     ConcreteObserver o-- ConcreteSubject
 ```
 
-This should give you an idea for visual representation of the design patterns using Mermaid UML diagrams. Remember, the beauty of design patterns is that they're abstract, so these diagrams provide a high-level understanding. In actual implementations, the details might vary based on requirements.
+20. **State**
+
+```mermaid
+classDiagram
+    Context o-- State
+    State <|.. ConcreteStateA
+    State <|.. ConcreteStateB
+    Context : +request()
+```
+
+21. **Strategy**
+
+```mermaid
+classDiagram
+    Context o-- Strategy : uses
+    Strategy <|.. ConcreteStrategyA
+    Strategy <|.. ConcreteStrategyB
+```
+
+22. **Template Method**
+
+```mermaid
+classDiagram
+    AbstractClass : +templateMethod()
+    AbstractClass : +primitiveOperation1()
+    AbstractClass : +primitiveOperation2()
+    AbstractClass <|-- ConcreteClass
+```
+
+23. **Visitor**
+
+```mermaid
+classDiagram
+    Element <|-- ConcreteElementA
+    Element <|-- ConcreteElementB
+    Visitor <|.. ConcreteVisitor1
+    Visitor <|.. ConcreteVisitor2
+    Element : +accept(Visitor)
+    ConcreteVisitor1 : +visitConcreteElementA(ConcreteElementA)
+    ConcreteVisitor1 : +visitConcreteElementB(ConcreteElementB)
+```
+
+With these diagrams, you should have a clear visual representation of the relationships and roles in each pattern. Remember, these are general outlines; specifics might differ based on the particular use case and requirements.
