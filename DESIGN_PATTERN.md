@@ -75,8 +75,11 @@ classDiagram
 
 ```mermaid
 classDiagram
-    Singleton : -instance
-    Singleton : +getInstance()
+    class Singleton {
+        -static instance : Singleton
+        -Singleton()
+        +static getInstance() : Singleton
+    }
 ```
 
 ### Structural Patterns
@@ -203,9 +206,24 @@ classDiagram
 
 ```mermaid
 classDiagram
-    Originator : +setMemento(Memento)
-    Originator : +createMemento() : Memento
-    Caretaker o-- Memento : holds
+    class Originator {
+        +createMemento() : Memento
+        +setMemento(Memento)
+    }
+
+    class Memento {
+        -state
+        +getState() : State
+        +setState(State)
+    }
+
+    class Caretaker {
+        -memento : Memento
+    }
+
+    Originator --> Memento : creates
+    Caretaker --> Memento : holds
+
 ```
 
 19. **Observer**
@@ -245,9 +263,17 @@ classDiagram
 
 ```mermaid
 classDiagram
-    AbstractClass : +templateMethod()
-    AbstractClass : +primitiveOperation1()
-    AbstractClass : +primitiveOperation2()
+    class AbstractClass {
+        +templateMethod()
+        +primitiveOperation1()
+        +primitiveOperation2()
+    }
+
+    class ConcreteClass {
+        +primitiveOperation1()
+        +primitiveOperation2()
+    }
+
     AbstractClass <|-- ConcreteClass
 ```
 
