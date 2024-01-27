@@ -106,4 +106,111 @@ merge_sort(A[...n]) {
 - Summed up equals: \( n(1 + \frac{1}{2} + \frac{1}{4} + ... + \frac{1}{2^{\log n}}) \)
 - Which simplifies to: \( \Theta(n \log n) \)
 
+### Quick Sort Algorithm
+
+#### Quick Sort Overview
+
+- Relies on **Partitioning**
+- **Pivot** is a number in A
+- A[1...n]
+
+```plaintext
+Quick-Sort(A[1...n]) {
+    if (n < 2) return A;
+    pivot_index = Partition(A[1...n]);
+    Quick-Sort(A[1 : pivot_index-1]);
+    Quick-Sort(A[pivot_index+1 : n]);
+}
+```
+
+#### Time Complexity Analysis
+
+- Best case: \( T(n) = 2T(\frac{n}{2}) + n \), which simplifies to \( \Theta(n \log n) \)
+- Worst case: \( T(n) = T(\frac{n}{3}) + T(\frac{2n}{3}) + n \)
+- Bounds: \( \frac{n \log n}{3} \leq T(n) \leq n \log \frac{3n}{2} \)
+
+The notes include graphical representations of the partitioning concept and the recursive nature of the quick sort algorithm, illustrating the divide-and-conquer approach and how the partition sizes change.
+
+Now, let's transcribe the content from the fifth page `Sorting I_Page_05.png`.
+
+### Quick Sort Algorithm Continued
+
+#### Partitioning in Quick Sort
+
+```plaintext
+Partition(A[1...n]) {
+    Pivot = A[n];
+    i = 0; // i = -1 if starting from index 0
+    for (curr = 1; curr <= n-1; curr++) {
+        if (A[curr] <= Pivot) {
+            Swap(A[curr], A[i+1]);
+            i++;
+        }
+    }
+    Swap(A[n], A[i+1]);
+    return i+1;
+}
+```
+
+- Time Complexity for partition function: \( T(n) = O(n) \)
+- Space Complexity for partition function: \( S(n) = O(1) \)
+
+#### First Version of Partitioning
+
+- Choose pivot as the last number.
+- Procedure includes:
+  1. If the current element is greater than the pivot, increment the current pointer.
+  2. If the current element is less than or equal to the pivot, swap with the element at the incrementing index.
+
+The notes also contain an example illustrating the partitioning process within an array, showing how elements are swapped based on their comparison with the pivot.
+
+```
+Example:
+Array A = [10, 2, 3, 7, 8, 9, 4, 6]
+
+Partitioning steps:
+1. Pivot chosen is the last element, A[7] = 6.
+2. Initialization: i points to the start of the array, curr is the current index starting from A[1].
+
+During partitioning:
+- Elements less than or equal to pivot (6) are moved to the left of the pivot.
+- Elements greater than pivot are kept on the right.
+
+After partitioning:
+- The pivot (6) is placed after all elements smaller than or equal to it.
+- The array is now partially sorted around the pivot.
+
+Resulting array:
+- Elements to the left of the pivot are less than or equal to 6.
+- Elements to the right of the pivot are greater than 6.
+
+```
+
+### Quick Sort Algorithm - Detailed Partition Function
+
+#### Partition Function Code
+
+```plaintext
+Partition(A[1...n]) {
+    Pivot = A[n];
+    i = 0; // i = -1 if starting from index 0
+    for (curr = 1; curr <= n-1; curr++) {
+        if (A[curr] <= Pivot) {
+            Swap(A[curr], A[i+1]);
+            i++;
+        }
+    }
+    Swap(A[n], A[i+1]);
+    return i+1;
+}
+```
+
+##### Time and Space Complexity for Partition Function
+
+- \( T(n) = \Theta(n) \)
+- \( S(n) = \Theta(1) \)
+- Note: Quick Sort is an in-place sort.
+
+- The notes emphasize the in-place nature of Quick Sort and provide detailed steps for the partition function, which is central to the Quick Sort algorithm. The function swaps elements in the array based on their comparison to the pivot value, and rearranges the array so that elements less than the pivot are on the left and elements greater than the pivot are on the right.
+
 ---
