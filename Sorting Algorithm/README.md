@@ -213,4 +213,147 @@ Partition(A[1...n]) {
 
 - The notes emphasize the in-place nature of Quick Sort and provide detailed steps for the partition function, which is central to the Quick Sort algorithm. The function swaps elements in the array based on their comparison to the pivot value, and rearranges the array so that elements less than the pivot are on the left and elements greater than the pivot are on the right.
 
+### Heap Sort and Heap Data Structure
+
+#### Heap Operations and Complexity
+
+- Heap (Max)
+  - Insert
+    - Array Unsorted: \( O(1) \)
+    - Array Sorted: \( O(n) \)
+    - Binary Tree Sorted: \( O(\log n) \)
+  - Get Max
+    - Array Unsorted: \( O(n) \)
+    - Array Sorted: \( O(1) \)
+    - Binary Tree Sorted: \( O(1) \)
+  - Delete Max
+    - Array Unsorted: \( O(1) \)
+    - Array Sorted: \( O(1) \)
+    - Binary Tree Sorted: \( O(\log n) \)
+
+#### Heap as a Dynamic Set of Numbers
+
+- Represented in an array format, both physical and logical.
+- "Almost" full binary tree.
+- Heap property:
+  - For Max heap: Parent \( \geq \) Child
+  - For Min heap: Parent \( \leq \) Child
+
+#### Heap Structure Example
+
+- A binary tree example is shown with nodes labeled and a corresponding array representation.
+- To find the parent of a node at index \( i \): \( \text{index} / 2 \)
+- To find the children of a node at index \( i \):
+  - Left child: \( 2 \times \text{index} \)
+  - Right child: \( 2 \times \text{index} + 1 \)
+
+### Graphical Representation of Heapify Process
+
+- The root node represents the largest element in a max heap.
+- The `heapify` function compares the root with its children and swaps it with the largest of the two if the root is not the largest.
+- After a swap, the `heapify` function is called recursively on the subtree rooted at the child that was swapped to ensure it too satisfies the max heap property.
+
+```
+          (6)
+         /   \
+      (3)     (5)
+      / \     /
+    (2) (1) (4)
+```
+
+In the array representation of the heap, the elements are stored as follows:
+
+```
+Array A = [6, 3, 5, 2, 1, 4]
+```
+
+The underscores represent that heap arrays are typically 1-indexed in educational contexts for easier arithmetic relating to parent and child indices:
+
+- The parent index is given by `i/2`.
+- The left child index is `2*i`.
+- The right child index is `2*i + 1`.
+
+This textual description outlines the structure of a binary heap and the logic behind the heapify process. For visual representation, you would need to use a diagramming tool to draw the binary tree structure.
+
+### Heap Sort Operations Code
+
+#### Get Max Function
+
+```plaintext
+get_max() {
+    return A[1];
+}
+```
+
+#### Insert Function
+
+```plaintext
+insert(k) {
+    n = n + 1;
+    A[n] = k;
+    i = n;
+    while(parent(i) > 0 && A[i] > A[parent(i)]) {
+        swap(A[i], A[parent(i)]);
+        i = parent(i);
+    }
+}
+```
+
+#### Delete Max Function
+
+```plaintext
+delete_max() {
+    swap(A[1], A[n]);
+    n = n - 1;
+    heapify(1);
+}
+```
+
+#### Helper Function: Heapify
+
+```plaintext
+heapify(i) {
+    largest = i;
+    if (left(i) <= n && A[left(i)] > A[largest]) {
+        largest = left(i);
+    }
+    if (right(i) <= n && A[right(i)] > A[largest]) {
+        largest = right(i);
+    }
+    if (i == largest) return;
+    swap(A[i], A[largest]);
+    heapify(largest);
+}
+```
+
+- The notes state that the time complexity for the heapify function is \( O(\log n) \).
+
+The notes detail the core functions used in a heap-based data structure, including `get_max`, `insert`, and `delete_max`, as well as the `heapify` helper function, which is crucial for maintaining the heap property.
+
+### Heap Sort Algorithm - Detailed Heapify Function
+
+#### Heapify Function
+
+```plaintext
+Helper Function: Heapify
+
+heapify(i) {
+    largest = i;
+    if (left(i) <= n && A[left(i)] > A[largest]) {
+        largest = left(i);
+    }
+    if (right(i) <= n && A[right(i)] > A[largest]) {
+        largest = right(i);
+    }
+    if (i != largest) {
+        swap(A[i], A[largest]);
+        heapify(largest);
+    }
+}
+
+Time complexity: T(n) = T(n/2) + 1 = O(log n)
+```
+
+The notes include a graphical representation of the heapify process within a binary tree, illustrating how the function ensures the max heap property is maintained after operations that modify the heap.
+
 ---
