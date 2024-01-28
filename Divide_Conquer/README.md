@@ -222,3 +222,111 @@ return MaxHeap.getMax();
 - Building the heap is O(n).
 - Deleting the k-1 smallest elements takes O(k log n).
 - The overall complexity is O(n + k log n) for the k-th smallest.
+
+## Divide & Conquer II - Integer Multiplication
+
+### Recap
+
+- Techniques such as counting inversions, finding the k-th smallest element, and sorting algorithms like Merge Sort and Quick Sort.
+
+### Integer Multiplication
+
+- `int32` multiplication (max ~2-4 billion).
+- `int64` multiplication (max ~4-16 quintillion).
+- Application of RSA for bank security requires large integer multiplication of 2048 bits.
+
+Example:
+
+- Multiplying `X = 1234` and `Y = 1020` using the traditional method results in `T(n) = O(n^2)` for multiplication but only `T(n) = O(n)` for summation.
+
+```plaintext
+  1234
+x 1020
+------
+  0000   (1234 * 0)
+ 0000    (1234 * 2, shift one position to the left)
+1234     (1234 * 1, shift two positions to the left)
+------
+1258680  (Result of multiplication)
+```
+
+### Using Divide & Conquer to Improve Multiplication
+
+By splitting the digits and using recursive multiplication, we can improve the efficiency.
+
+Example:
+
+- `X = 1234` can be split into `12 * 10^2 + 34`.
+- Given n digits numbers `X` and `Y`:
+
+```plaintext
+X = a * 10^(n/2) + b
+Y = c * 10^(n/2) + d
+```
+
+Multiplication `X * Y` is:
+
+```plaintext
+(ac * 10^n) + ((ad + bc) * 10^(n/2)) + bd
+```
+
+- Using Divide & Conquer, we can reduce the problem into smaller subproblems.
+
+### Karatsuba Multiplication
+
+To further reduce the number of recursive multiplications, we use the Karatsuba algorithm:
+
+```plaintext
+P1 = a * c
+P2 = b * d
+P3 = (a + b) * (c + d)
+```
+
+Then we can find the product by combining `P1`, `P2`, and `P3 - P1 - P2`.
+
+#### Complexity Analysis
+
+- The Karatsuba algorithm has a recurrence relation of `T(n) = 3T(n/2) + n`, leading to `T(n) = O(n^log2(3))`, which is approximately `O(n^1.58)`.
+
+### Visual Example for Karatsuba Multiplication
+
+```plaintext
+X = 1234  -> a = 12, b = 34
+Y = 1020  -> c = 10, d = 20
+```
+
+```plaintext
+P1 = 12 * 10 = 120
+P2 = 34 * 20 = 680
+P3 = (12 + 34) * (10 + 20) = 46 * 30 = 1380
+```
+
+```plaintext
+Result = (P1 * 10^n) + (P3 - P1 - P2) * 10^(n/2) + P2
+        = 120 * 10^4 + (1380 - 120 - 680) * 10^2 + 680
+        = 1258680
+```
+
+### Pseudocode for Karatsuba Algorithm
+
+```plaintext
+KaratsubaMultiplication(X, Y) {
+    if (X < 10 or Y < 10)
+        return X * Y
+
+    /* Calculate the size of the numbers */
+    m = max(size_base10(X), size_base10(Y))
+    m2 = m / 2
+
+    /* Split the digit sequences at the middle */
+    high1, low1 = split_at(X, m2)
+    high2, low2 = split_at(Y, m2)
+
+    /* 3 calls made to numbers approximately half the size */
+    z0 = KaratsubaMultiplication(low1, low2)
+    z1 = KaratsubaMultiplication((low1 + high1), (low2 + high2))
+    z2 = KaratsubaMultiplication(high1, high2)
+
+    return (z2 * 10^(2 * m2)) + ((z1 - z2 - z0) * 10^(m2)) + z0
+}
+```
