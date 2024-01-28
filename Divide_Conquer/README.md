@@ -430,3 +430,95 @@ comb(A[1...n])
 
     return solution
 ```
+
+---
+
+### Permutations
+
+#### Concept
+
+- The number of permutations of a set of `n` elements is `n!` (n factorial).
+- The algorithm for generating permutations involves swapping elements and recursing on the sub-array.
+
+#### Pseudo Code
+
+```python
+def perm(A):
+    if len(A) == 1:
+        return [A]
+    solution = []
+    for i in range(len(A)):
+        A[i], A[-1] = A[-1], A[i]  # Swap ith and last element
+        sub = perm(A[:-1])          # Generate permutations of the sub-array
+        for s in sub:
+            solution.append(s + [A[-1]])
+        A[i], A[-1] = A[-1], A[i]  # Swap back for the next iteration
+    return solution
+```
+
+#### Example
+
+For `A = {1, 2, 3}`, the permutations are:
+
+```plaintext
+[
+  [1, 2, 3], [1, 3, 2], [2, 1, 3],
+  [2, 3, 1], [3, 1, 2], [3, 2, 1]
+]
+```
+
+### 8 Queens Problem
+
+- The 8 Queens puzzle asks to place 8 queens on an 8x8 chessboard so no two queens attack each other.
+- A solution can be represented as a permutation of column positions where each number represents the column position of a queen in the corresponding row.
+
+#### Pseudo Code
+
+```python
+def solve_n_queens(n):
+    # Assume a function `is_valid` that checks if the queen's position is valid
+    # Assume a function `perm` that generates all permutations of an array
+    for solution in perm(list(range(1, n + 1))):
+        if is_valid(solution):
+            return solution
+    return []
+```
+
+#### Visual Example
+
+```plaintext
+[2, 4, 6, 8, 3, 1, 7, 5]  # Each number corresponds to the queen's column in that row
+```
+
+### Binary Search Tree & Hashing
+
+- Binary Search Trees (BSTs) and Hashing are two methods to maintain a dynamic set of items.
+- BSTs offer `O(log n)` performance for insertion, deletion, and find operations, while hashing can offer `O(1)` performance on average.
+
+#### Comparison Table
+
+| Operation | Binary Search Tree | Hashing |
+| --------- | ------------------ | ------- |
+| Insert    | O(log n)           | O(1)    |
+| Delete    | O(log n)           | O(1)    |
+| Find      | O(log n)           | O(1)    |
+
+#### Data Structures
+
+- **Set**: Can be implemented as a `TreeSet` (based on BST) or `HashSet` (based on hashing).
+- **Map**: Can be implemented as a `TreeMap` (based on BST) or `HashMap` (based on hashing).
+
+#### Example Usage
+
+```python
+# TreeSet example in Python using `set`
+tree_set = set()
+tree_set.add(1)
+tree_set.remove(1)
+
+# HashMap example in Python using `dict`
+hash_map = {}
+hash_map['key'] = 'value'
+```
+
+---
