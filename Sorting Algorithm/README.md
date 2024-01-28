@@ -273,8 +273,6 @@ The underscores represent that heap arrays are typically 1-indexed in educationa
 - The left child index is `2*i`.
 - The right child index is `2*i + 1`.
 
-This textual description outlines the structure of a binary heap and the logic behind the heapify process. For visual representation, you would need to use a diagramming tool to draw the binary tree structure.
-
 ### Heap Sort Operations Code
 
 #### Get Max Function
@@ -350,10 +348,146 @@ heapify(i) {
         heapify(largest);
     }
 }
-
-Time complexity: T(n) = T(n/2) + 1 = O(log n)
 ```
 
-The notes include a graphical representation of the heapify process within a binary tree, illustrating how the function ensures the max heap property is maintained after operations that modify the heap.
+- Time complexity: T(n) = T(n/2) + 1 = O(log n)
+
+### Heap Sort Algorithm
+
+If we have a max-heap, keep calling delete function will sort the array.
+
+```markdown
+make_heap(A[1...n]);
+
+for (i = 1 to n-1) {
+delete_max();
+}
+
+// Building a max-heap
+for (i = n/2 downto 1) {
+heapify(i);
+}
+```
+
+Time complexity: T(n) = O(n)
+
+```
+// Inserting elements into the heap
+for (i = 1 to n) {
+    insert(n);
+}
+```
+
+Time complexity: T(n) = O(n\*log n)
+
+The notes outline the process of heap sort, which involves building a max-heap and then repeatedly calling `delete_max` to sort the array. The `heapify` process is used during heap construction, and the `insert` method is used for adding elements, both with their respective time complexities.
+
+The note also includes a graphical representation of the heap, but in markdown, we can only describe it textually.
+
+```markdown
+Heap Structure:
+
+            (10)
+           /    \
+         (9)    (3)
+        /  \     / \
+      (6)  (8) (2) (1)
+      / \  /
+    (4) (5) (7)
+```
+
+The heap is represented as a binary tree with nodes labeled from 1 to 9, indicating the positions in the array. The tree is almost complete, with all levels fully filled except possibly the last level, which is filled from left to right.
+
+To maintain the max-heap property, the `heapify` function is called recursively to ensure that for every node `i` other than the root, the value in `i` is less than or equal to the value in its parent.
+
+It shows a max-heap and indicates that the `heapify` function is called to maintain the max-heap property for the subtree.
+
+### Comparison-based Sorting and Counting Sort
+
+#### Comparison-based Sorting
+
+Any comparison-based sorting algorithm has a lower bound on its running time of \( \Omega(n \log n) \).
+
+This statement provides the lower bound for the running time of any algorithm that relies on comparisons to sort a list of items, such as Quick Sort, Merge Sort, or Heap Sort.
+
+#### Counting Sort
+
+##### Counting Sort Example
+
+Given Array A
+
+```plaintext
+A = [2, 3, 1, 4, 1, 2]
+```
+
+Working Array B (Count Array)
+
+```plaintext
+B = [0, 2, 2, 1, 1]
+```
+
+This assumes the counts start at index 1 for the value 1, index 2 for the value 2, and so on.
+
+Transformed Working Array B (Cumulative Count)
+
+```plaintext
+B = [0, 2, 4, 5, 6]
+```
+
+After accumulating counts; B[i] now contains the number of elements less than or equal to i.
+
+Result Array C (Sorted Array)
+
+```plaintext
+C = [1, 1, 2, 2, 3, 4]
+```
+
+The sorted array, constructed using the counts from array B.
+
+These arrays illustrate the intermediate steps in the Counting Sort algorithm, where `B` is used to count the occurrences of each number, and `C` is the output sorted array. The values in array `B` are transformed into a cumulative count to determine the positions of each element in the sorted array `C`.
+
+Process:
+
+1. Count occurrences of each number in A and store in B.
+2. Modify B such that each index contains the sum of previous counts.
+3. Place each number in the correct position in C by using the counts in B.
+
+The notes provide an example of the Counting Sort algorithm, which uses an intermediate array to count occurrences and then sorts the array. This is particularly effective when the range of potential values (k) is not significantly greater than the number of elements (n).
+
+### Counting Sort Algorithm
+
+```plaintext
+counting_sort(A[1...n], k) {
+    for i = 1 to n {
+        B[A[i]] += 1;
+    }
+    for i = 2 to k {
+        B[i] = B[i] + B[i-1];
+    }
+    for i = n downto 1 {
+        C[B[A[i]]] = A[i];
+        B[A[i]] -= 1;
+    }
+    return C;
+}
+```
+
+- Counting part is \( O(n) \)
+- Prefix sum part is \( O(k) \)
+- Sorting part is \( O(n) \)
+- Overall time complexity: \( T(n) = O(n+k) \)
+- Counting Sort is a "stable" sort.
+
+Counting Sort algorithm is a non-comparison-based sorting algorithm.
+
+It is efficient when the range of input data (k) is not significantly greater than the number of elements to be sorted (n).
+
+The algorithm consists of three main steps:
+
+- counting the occurrences of each element,
+- calculating the prefix sum to determine the positions of elements,
+- and placing the elements in a sorted array.
+
+The algorithm is noted for being stable, which means that it maintains the relative order of records with equal keys.
 
 ---
