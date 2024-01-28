@@ -309,7 +309,7 @@ Result = (P1 * 10^n) + (P3 - P1 - P2) * 10^(n/2) + P2
 
 ### Pseudocode for Karatsuba Algorithm
 
-```plaintext
+```C
 KaratsubaMultiplication(X, Y) {
     if (X < 10 or Y < 10)
         return X * Y
@@ -329,4 +329,104 @@ KaratsubaMultiplication(X, Y) {
 
     return (z2 * 10^(2 * m2)) + ((z1 - z2 - z0) * 10^(m2)) + z0
 }
+```
+
+### Max Sum of Sub-array
+
+Find the maximum sum of any sub-array within a given integer array `A[1...n]`.
+
+##### Examples
+
+- For the array `[2, -1, 3, 5, -10, 4]`, the max sub-array sum is `9` (from the sub-array `[2, -1, 3, 5]`).
+
+- Another example using Divide & Conquer:
+  The ideal method is to start from the middle and look for numbers by left and by right.
+
+```plaintext
+     [1, 2, 3, 4, 5, 6, 7, 8, 9]
+     max-left-sum = 6 (from the sub-array [2, 3, 1])
+     max-right-sum = 9 (from the sub-array [5, 4])
+     max-cross-sum = ? (to be determined)
+```
+
+#### Pseudocode
+
+```C
+max_sum(A[1...n]) {
+  // Base case omitted for brevity
+  // ...
+  max_left_sum = find_max_sum(A[1...n/2])
+  max_right_sum = find_max_sum(A[n/2+1...n])
+  max_cross_sum = find_max_cross_sum(A, n/2)
+  return max(max_left_sum, max_right_sum, max_cross_sum)
+}
+
+find_max_cross_sum(A, mid) {
+  left_sum = 0
+  left_max = 0
+  for i = mid downto 1 {
+    left_sum += A[i]
+    if (left_sum > left_max) {
+      left_max = left_sum
+    }
+  }
+  right_sum = 0
+  right_max = 0
+  for i = mid+1 to n {
+    right_sum += A[i]
+    if (right_sum > right_max) {
+      right_max = right_sum
+    }
+  }
+  return left_max + right_max
+}
+```
+
+#### Complexity Analysis
+
+- For left and right side calculations, the time complexity is `T(n) = 2T(n/2) + n`, which simplifies to `T(n) = O(n log n)`.
+
+#### Visual Representation
+
+Array A = `[-10, 7, -2, 5, 4, -3, 6, 8, 1]`
+Illustrating the divide & conquer approach:
+
+- max_left = 10 (from sub-array [7, -2, 5])
+- max_right = 9 (from sub-array [4, -3, 6, 8])
+- max_cross = 20 (crossing the middle, combining [5, 4, -3, 6, 8])
+
+Combination Step:
+
+- Total sum = max(max_left, max_right, max_cross)
+
+### Combination
+
+To find all subsets in an set A with n elements (e.g., n = 3), we can generate all possible subsets (2^n subsets):
+
+All subsets of `A = {1, 2, 3}`:
+
+```plaintext
+{}, {1}, {2}, {3},
+{1, 2}, {1, 3}, {2, 3},
+{1, 2, 3}
+```
+
+For the algorithm, we can use a recursive approach to generate all these subsets.
+
+#### Pseudocode for Combination
+
+```C
+comb(A[1...n])
+    if n == 0
+        return [[]] // Base case: only the empty set
+
+    sub = comb(A[1...n-1]) // Recurse with one less element
+    solution = copy(sub) // Copy the subsets found so far
+
+    // For each subset found, add the nth element and create new subsets
+    for each s in sub
+        new_subset = s + [A[n]]
+        solution.append(new_subset)
+
+    return solution
 ```
