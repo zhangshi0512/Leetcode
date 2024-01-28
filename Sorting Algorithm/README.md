@@ -490,4 +490,88 @@ The algorithm consists of three main steps:
 
 The algorithm is noted for being stable, which means that it maintains the relative order of records with equal keys.
 
+### Review of Counting Sort
+
+- Array `A` contains `n` integers where each `A[i]` is between `1` and `k`.
+- The runtime complexity of counting sort is \( O(n + k) \).
+- For large `k`, Radix Sort or Digit Sort can optimize the process.
+
+#### Example: 3-digit integers
+
+- Original array: `145, 093, 888, 047, 012, 100, 099`
+- Steps:
+  - Compare last digits
+  - Compare middle digits
+  - Compare first digits
+
+#### LSD (Least Significant Digit) to MSD (Most Significant Digit) Sort
+
+- Sorting by each digit from LSD to MSD.
+- For each phase, apply a stable sort (like counting sort) on the digit of interest.
+
+The content describes the optimization of counting sort when the range `k` is large by using Radix Sort or Digit Sort, which involves sorting numbers by individual digits.
+
+#### Counting Sort Algorithm Details
+
+```plaintext
+Input: A[1...n], k
+for i = 1 to n do
+    B[f(A[i])] += 1;
+
+for i = 2 to k do
+    B[i] = B[i] + B[i - 1];
+
+for i = n downto 1 do
+    C[B[f(A[i])]] = A[i];
+    B[f(A[i])] -= 1;
+
+return C;
+```
+
+- Function `f(x)` is used to map a number to its corresponding digit:
+  - For the last digit: `f(x) = x % 10`
+  - For the middle digit: `f(x) = (x / 10) % 10`
+  - For the first digit: `f(x) = (x / 100) % 10`
+
+This section provides the pseudo-code for the Counting Sort algorithm and describes the function `f(x)` that extracts the relevant digit from the number for sorting.
+
+#### Understanding the Counting Sort Algorithm and Its Complexity
+
+- The range of the counting sort algorithm is defined as \( 0 \) to \( k \).
+- The function `f(A[i])` maps the element \( A[i] \) to the correct index in the count array \( B \).
+- The time complexity of the counting sort algorithm is \( O(d(n + k)) \):
+  - \( d \) is the number of digits in the numbers being sorted.
+  - \( n \) is the length of the input array.
+  - \( k \) is the range of the input values (e.g., the max value).
+
+#### Example of Counting Sort on 3-digit Numbers
+
+For an array of 3-digit numbers, the intermediate steps would look like this:
+
+- Input array: \( [002, 011, 321, 175] \) with \( k = 999 \).
+- Bit operations might be used to isolate each digit of the numbers.
+
+The notes describe the counting sort's range and the function `f(A[i])` for mapping elements to indices in the count array. It also introduces bit operations for digit isolation, which can be helpful in radix sort implementations.
+
+#### Counting Sort vs. Radix Sort Complexity
+
+Counting Sort and Radix Sort do not strictly have a linear running time; it depends on the specific use case.
+
+#### Complexity Comparison
+
+- **Counting Sort**: \( O(n + k) \)
+- **Radix Sort**: \( O(d(n + k)) \)
+
+#### Use Cases
+
+- Counting Sort is suitable for smaller ranges of integers or when \( k \) is not significantly larger than \( n \).
+- Radix Sort is more efficient for larger ranges or when the numbers have more digits, as it processes each digit separately.
+
+### Example Use Case Analysis
+
+- For 10 million 3-digit numbers, Counting Sort is efficient.
+- For 10 million 32-bit integers, Radix Sort is a better choice due to the larger range of values.
+
+The notes explain the scenarios where Counting Sort and Radix Sort are most suitable, highlighting that the choice of algorithm depends on the range of the numbers to be sorted and the length of the input array.
+
 ---
