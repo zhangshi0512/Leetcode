@@ -131,7 +131,11 @@ T(n/4) T(n/4) T(n/4) T(n/4)
 
 Each level of the tree represents a halving of the problem size, and the work done at each level is proportional to the number of subproblems multiplied by the cost to combine them.
 
-## Order Statistics
+### Order Statistics
+
+For example, to find the median, which is the 50th percentile, we can use a divide and conquer approach similar to Quick Sort, which is more efficient than sorting the entire array.
+
+### Divide & Conquer: Finding the k-th Smallest Element
 
 Finding the k-th smallest element in an unsorted array is a classic problem known as order statistics.
 
@@ -139,4 +143,82 @@ Finding the k-th smallest element in an unsorted array is a classic problem know
 A: [1, ... , n] k: n/2
 ```
 
-For example, to find the median, which is the 50th percentile, we can use a divide and conquer approach similar to Quick Sort, which is more efficient than sorting the entire array.
+Using a partition-based selection algorithm, similar to the one used in Quick Sort, we can find the k-th smallest element efficiently.
+
+#### Algorithm Overview
+
+Given an array `A` of `n` elements:
+
+1. Partition the array around a pivot.
+2. If the pivot's position `i` is equal to `k`, return `A[i]`.
+3. If `i` is greater than `k`, recursively search the left subarray.
+4. If `i` is less than `k`, recursively search the right subarray.
+
+#### Pseudocode
+
+```plaintext
+kth(A[1...n], k) {
+    j = Partition(A[1...n]);
+    if (i == k) {
+        return A[i];
+    } else if (i > k) {
+        return kth(A[1...i-1], k);
+    } else {
+        return kth(A[i+1...n], k - i);
+    }
+}
+```
+
+#### Complexity Analysis
+
+- The average-case complexity is `O(n)`, but it can be worse in the worst case.
+- Partition operation takes `O(n)` time.
+- Recurrence: `T(n) = T(n/2) + n`, which simplifies to `O(n)`.
+
+#### Visual Representation of the Partition Process
+
+Initial array A: `[4, 1, 6, 2, 5, 3]`
+Partitioning steps:
+`[4, 1, 2] 3 [6, 5]` // Pivot = 3, k = 4
+`[4, 5, 6]` // k = 1 (in the right subarray)
+`[4]` // k = 1 (in the left subarray, which is the k-th element)
+
+The process visualizes selecting the k-th smallest element by partitioning the array and reducing the problem size in each recursive call.
+
+#### Recursive Tree Visualization for Complexity Analysis
+
+```plaintext
+    T(n)
+     /  \
+T(n/2) T(n/2)
+```
+
+### k-th Smallest Using Heap
+
+You can also use a Min-Heap or Max-Heap to find the k-th smallest or largest element, respectively.
+
+#### Using Min-Heap for k-th Smallest
+
+```plaintext
+MinHeap(A[1...n]);
+for (i = 1 to k-1) {
+    MinHeap.deleteMin();
+}
+return MinHeap.getMin();
+```
+
+#### Using Max-Heap for k-th Largest
+
+```plaintext
+MaxHeap(A[1...n]);
+for (i = n to k+1) {
+    MaxHeap.deleteMax();
+}
+return MaxHeap.getMax();
+```
+
+#### Complexity for Heap Approach
+
+- Building the heap is O(n).
+- Deleting the k-1 smallest elements takes O(k log n).
+- The overall complexity is O(n + k log n) for the k-th smallest.
