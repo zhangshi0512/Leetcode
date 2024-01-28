@@ -26,7 +26,7 @@ An inversion in an array is a situation where two elements are out of their natu
 
 The brute force method iterates through each element pair and counts the inversions, with a time complexity of \( O(n^2) \).
 
-```plaintext
+```C
 cnt = 0;
 for (i = 1 to n) {
     for (j = i + 1 to n) {
@@ -70,7 +70,7 @@ If `L[i] > R[j]`, all subsequent elements in `L` form inversions with `R[j]`.
 
 To count cross inversions:
 
-```plaintext
+```C
 cross_inversion(L[1...n], R[1...m]) {
     z = 0;
     for i = 1 to n {
@@ -156,7 +156,7 @@ Given an array `A` of `n` elements:
 
 #### Pseudocode
 
-```plaintext
+```C
 kth(A[1...n], k) {
     j = Partition(A[1...n]);
     if (i == k) {
@@ -199,7 +199,7 @@ You can also use a Min-Heap or Max-Heap to find the k-th smallest or largest ele
 
 #### Using Min-Heap for k-th Smallest
 
-```plaintext
+```C
 MinHeap(A[1...n]);
 for (i = 1 to k-1) {
     MinHeap.deleteMin();
@@ -209,7 +209,7 @@ return MinHeap.getMin();
 
 #### Using Max-Heap for k-th Largest
 
-```plaintext
+```C
 MaxHeap(A[1...n]);
 for (i = n to k+1) {
     MaxHeap.deleteMax();
@@ -342,19 +342,22 @@ Find the maximum sum of any sub-array within a given integer array `A[1...n]`.
 - Another example using Divide & Conquer:
   The ideal method is to start from the middle and look for numbers by left and by right.
 
+  imagine the following array is from left to middle (n/2).
+
 ```plaintext
-     [1, 2, 3, 4, 5, 6, 7, 8, 9]
-     max-left-sum = 6 (from the sub-array [2, 3, 1])
-     max-right-sum = 9 (from the sub-array [5, 4])
-     max-cross-sum = ? (to be determined)
+     index:[ 1,  2, 3, 4,  5, 6, ...]
+     array:[-10, 7, 3, 2, -6, 5, ...]
+     max-left-sum = 11 (from the sub-array [7, 3, 2, -6, 5])
 ```
 
 #### Pseudocode
 
 ```C
 max_sum(A[1...n]) {
-  // Base case omitted for brevity
-  // ...
+  // Base case: if the array has only one element
+  if (n == 1) {
+    return A[1]; // or max(A[1], 0) if we want to account for negative-only arrays
+  }
   max_left_sum = find_max_sum(A[1...n/2])
   max_right_sum = find_max_sum(A[n/2+1...n])
   max_cross_sum = find_max_cross_sum(A, n/2)
@@ -392,8 +395,8 @@ Array A = `[-10, 7, -2, 5, 4, -3, 6, 8, 1]`
 Illustrating the divide & conquer approach:
 
 - max_left = 10 (from sub-array [7, -2, 5])
-- max_right = 9 (from sub-array [4, -3, 6, 8])
-- max_cross = 20 (crossing the middle, combining [5, 4, -3, 6, 8])
+- max_right = 6 (from sub-array [-3, 6, 8, 1])
+- max_cross = 20 (crossing the middle, combining [7, -2, 5, 4, -3, 6, 8, 1])
 
 Combination Step:
 
@@ -520,5 +523,122 @@ tree_set.remove(1)
 hash_map = {}
 hash_map['key'] = 'value'
 ```
+
+---
+
+### Binary Search Tree (BST)
+
+A binary search tree is a data structure that maintains a sorted order of elements, allowing for fast lookup, addition, and removal of items.
+
+#### Visual Example:
+
+```
+   5
+  / \
+ 3   7
+/ \   \
+1   4   8
+```
+
+- Here `5` is the root of the tree.
+- All elements in the left subtree of `5` are less than `5`.
+- All elements in the right subtree of `5` are greater than `5`.
+
+#### Operations:
+
+**Search Operation**
+
+```C
+find(TreeNode root, int k) {
+    if (root == null) return false;
+    if (root.key == k) return true;
+    if (k < root.key) return find(root.left, k);
+    else return find(root.right, k);
+}
+```
+
+- Worst-case time complexity: `O(h)` where `h` is the height of the tree.
+- Average-case time complexity: `O(log n)` if the tree is balanced.
+
+**Insertion Operation**
+
+```C
+insert(TreeNode root, int k) {
+    if (root == null) return new TreeNode(k);
+    if (root.key == k) return root;
+    if (k < root.key) root.left = insert(root.left, k);
+    else root.right = insert(root.right, k);
+    return root;
+}
+```
+
+- Worst-case time complexity: `O(h)` where `h` is the height of the tree.
+
+**Deletion Operation**
+
+1. If the node to be deleted is a leaf, it can be removed directly.
+2. If the node to be deleted has one child, remove the node and link its child with the node's parent.
+3. If the node to be deleted has two children, find the in-order successor of the node.
+   - The in-order successor is the smallest node in the right subtree of the node to be deleted.
+   - Swap the values of the node and its in-order successor and then remove the in-order successor, which will now have at most one child.
+
+```C
+delete(TreeNode* root, int k) {
+    if (root == NULL) return root; // If the tree is empty or node not found
+    if (k < root->key) {
+        root->left = delete(root->left, k); // Node to be deleted is in the left subtree
+    } else if (k > root->key) {
+        root->right = delete(root->right, k); // Node to be deleted is in the right subtree
+    } else {
+        // Node with only one child or no child
+        if (root->left == NULL) {
+            TreeNode* temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            TreeNode* temp = root->left;
+            free(root);
+            return temp;
+        }
+        // Node with two children, get the inorder successor (smallest in the right subtree)
+        TreeNode* temp = minValueNode(root->right);
+        // Copy the inorder successor's content to this node
+        root->key = temp->key;
+        // Delete the inorder successor
+        root->right = delete(root->right, temp->key);
+    }
+    return root; // Return the updated tree root
+}
+
+TreeNode* minValueNode(TreeNode* node) {
+    TreeNode* current = node;
+    /* Loop down to find the leftmost leaf */
+    while (current && current->left != NULL)
+        current = current->left;
+    return current;
+}
+```
+
+- Worst-case time complexity: `O(h)` where `h` is the height of the tree.
+
+**Finding In-Order Successor**
+
+```C
+successor(TreeNode root) {
+    TreeNode t = root.right;
+    while (t.left != null) t = t.left;
+    return t;
+}
+```
+
+- This function returns the in-order successor of a node in the BST, which is the node with the smallest key greater than the node's key.
+
+**In-Order Traversal Example:**
+
+```plaintext
+[2, 5, 6, 7, 11]
+```
+
+- This sequence represents the keys of a BST when traversed in-order.
 
 ---
