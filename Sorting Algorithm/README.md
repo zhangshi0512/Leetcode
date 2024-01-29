@@ -1,54 +1,38 @@
-Sorting Algorithms
+## Sorting Algorithms
 
 [Sorting Algorithms - Geeksforgeeks](https://www.geeksforgeeks.org/sorting-algorithms/#)
 
 Table for the complexity comparison:
 
-| Name                 | Best Case | Average Case | Worst Case | Memory | Stable | Method Used         |
-| -------------------- | --------- | ------------ | ---------- | ------ | ------ | ------------------- |
-| Quick Sort           | n log n   | n log n      | n^2 log n  | No     | No     | Partitioning        |
-| Merge Sort           | n log n   | n log n      | n log n    | n      | Yes    | Merging             |
-| Heap Sort            | n log n   | n log n      | n log n    | 1      | No     | Selection           |
-| Insertion Sort       | n         | n^2          | n^2        | 1      | Yes    | Insertion           |
-| Tim Sort             | n         | n log n      | n log n    | n      | Yes    | Insertion & Merging |
-| Selection Sort       | n^2       | n^2          | n^2        | 1      | No     | Selection           |
-| Shell Sort           | n log n   | n^(4/3)      | n^(3/2)    | 1      | No     | Insertion           |
-| Bubble Sort          | n         | n^2          | n^2        | 1      | Yes    | Exchanging          |
-| Tree Sort            | n log n   | n log n      | n log n    | n      | Yes    | Insertion           |
-| Cycle Sort           | n^2       | n^2          | n^2        | 1      | No     | Selection           |
-| Strand Sort          | n         | n^2          | n^2        | n      | Yes    | Selection           |
-| Cocktail Shaker Sort | n         | n^2          | n^2        | 1      | Yes    | Exchanging          |
-| Comb Sort            | n log n   | n^2          | n^2        | 1      | No     | Exchanging          |
-| Gnome Sort           | n         | n^2          | n^2        | 1      | Yes    | Exchanging          |
-| Odd–even Sort        | n         | n^2          | n^2        | 1      | Yes    | Exchanging          |
+| Name                 | Best Case         | Average Case      | Worst Case          | Memory     | Stable | Method Used         |
+| -------------------- | ----------------- | ----------------- | ------------------- | ---------- | ------ | ------------------- |
+| Quick Sort           | \( O(n \log n) \) | \( O(n \log n) \) | \( O(n^2 \log n) \) | No         | No     | Partitioning        |
+| Merge Sort           | \( O(n \log n) \) | \( O(n \log n) \) | \( O(n \log n) \)   | \( O(n) \) | Yes    | Merging             |
+| Heap Sort            | \( O(n \log n) \) | \( O(n \log n) \) | \( O(n \log n) \)   | \( O(1) \) | No     | Selection           |
+| Insertion Sort       | \( O(n) \)        | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | Yes    | Insertion           |
+| Tim Sort             | \( O(n) \)        | \( O(n \log n) \) | \( O(n \log n) \)   | \( O(n) \) | Yes    | Insertion & Merging |
+| Selection Sort       | \( O(n^2) \)      | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | No     | Selection           |
+| Shell Sort           | \( O(n \log n) \) | \( O(n^{4/3}) \)  | \( O(n^{3/2}) \)    | \( O(1) \) | No     | Insertion           |
+| Bubble Sort          | \( O(n) \)        | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | Yes    | Exchanging          |
+| Tree Sort            | \( O(n \log n) \) | \( O(n \log n) \) | \( O(n \log n) \)   | \( O(n) \) | Yes    | Insertion           |
+| Cycle Sort           | \( O(n^2) \)      | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | No     | Selection           |
+| Strand Sort          | \( O(n) \)        | \( O(n^2) \)      | \( O(n^2) \)        | \( O(n) \) | Yes    | Selection           |
+| Cocktail Shaker Sort | \( O(n) \)        | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | Yes    | Exchanging          |
+| Comb Sort            | \( O(n \log n) \) | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | No     | Exchanging          |
+| Gnome Sort           | \( O(n) \)        | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | Yes    | Exchanging          |
+| Odd–even Sort        | \( O(n) \)        | \( O(n^2) \)      | \( O(n^2) \)        | \( O(1) \) | Yes    | Exchanging          |
 
 ---
 
 ### Sorting Algorithms Overview
 
-- **Merge Sort**
-
-  - Time Complexity: \( O(n \log n) \)
-  - Space Complexity: \( O(n) \)
-
-- **Quick Sort**
-
-  - Time Complexity: \( O(n \log n)^2 \)
-  - Space Complexity: \( O(\log n)^2 \)
-
-- **Heap Sort**
-
-  - Time Complexity: \( O(n \log n) \)
-  - Space Complexity: \( O(\log n) \)
-
-- **Counting Sort**
-
-  - Time Complexity: \( O(n+k) \)
-  - Space Complexity: \( O(k) \)
-
-- **Radix Sort**
-  - Time Complexity: \( O(nk) \)
-  - Space Complexity: \( O(n+k) \)
+| Sorting Algorithm | Average-Case Time Complexity | Worst-Case Time Complexity | Space Complexity |
+| ----------------- | ---------------------------- | -------------------------- | ---------------- |
+| Merge Sort        | \( O(n \log n) \)            | \( O(n \log n) \)          | \( O(n) \)       |
+| Quick Sort        | \( O(n \log n) \)            | \( O(n^2) \)               | \( O(\log n) \)  |
+| Heap Sort         | \( O(n \log n) \)            | \( O(n \log n) \)          | \( O(1) \)       |
+| Counting Sort     | \( O(n+k) \)                 | \( O(n+k) \)               | \( O(k) \)       |
+| Radix Sort        | \( O(nk) \)                  | \( O(nk) \)                | \( O(n+k) \)     |
 
 ### Merge Sort Explanation
 
@@ -114,7 +98,7 @@ merge_sort(A[...n]) {
 - **Pivot** is a number in A
 - A[1...n]
 
-```plaintext
+```C
 Quick-Sort(A[1...n]) {
     if (n < 2) return A;
     pivot_index = Partition(A[1...n]);
@@ -129,15 +113,11 @@ Quick-Sort(A[1...n]) {
 - Worst case: \( T(n) = T(\frac{n}{3}) + T(\frac{2n}{3}) + n \)
 - Bounds: \( \frac{n \log n}{3} \leq T(n) \leq n \log \frac{3n}{2} \)
 
-The notes include graphical representations of the partitioning concept and the recursive nature of the quick sort algorithm, illustrating the divide-and-conquer approach and how the partition sizes change.
-
-Now, let's transcribe the content from the fifth page `Sorting I_Page_05.png`.
-
 ### Quick Sort Algorithm Continued
 
 #### Partitioning in Quick Sort
 
-```plaintext
+```C
 Partition(A[1...n]) {
     Pivot = A[n];
     i = 0; // i = -1 if starting from index 0
@@ -164,33 +144,34 @@ Partition(A[1...n]) {
 
 The notes also contain an example illustrating the partitioning process within an array, showing how elements are swapped based on their comparison with the pivot.
 
-```
-Example:
-Array A = [10, 2, 3, 7, 8, 9, 4, 6]
+**Example:**
+Array A = `[10, 2, 3, 7, 8, 9, 4, 6]`
 
-Partitioning steps:
+**Partitioning steps:**
+
 1. Pivot chosen is the last element, A[7] = 6.
 2. Initialization: i points to the start of the array, curr is the current index starting from A[1].
 
 During partitioning:
+
 - Elements less than or equal to pivot (6) are moved to the left of the pivot.
 - Elements greater than pivot are kept on the right.
 
 After partitioning:
+
 - The pivot (6) is placed after all elements smaller than or equal to it.
 - The array is now partially sorted around the pivot.
 
 Resulting array:
+
 - Elements to the left of the pivot are less than or equal to 6.
 - Elements to the right of the pivot are greater than 6.
-
-```
 
 ### Quick Sort Algorithm - Detailed Partition Function
 
 #### Partition Function Code
 
-```plaintext
+```C
 Partition(A[1...n]) {
     Pivot = A[n];
     i = 0; // i = -1 if starting from index 0
@@ -218,18 +199,12 @@ Partition(A[1...n]) {
 #### Heap Operations and Complexity
 
 - Heap (Max)
-  - Insert
-    - Array Unsorted: \( O(1) \)
-    - Array Sorted: \( O(n) \)
-    - Binary Tree Sorted: \( O(\log n) \)
-  - Get Max
-    - Array Unsorted: \( O(n) \)
-    - Array Sorted: \( O(1) \)
-    - Binary Tree Sorted: \( O(1) \)
-  - Delete Max
-    - Array Unsorted: \( O(1) \)
-    - Array Sorted: \( O(1) \)
-    - Binary Tree Sorted: \( O(\log n) \)
+
+| Operation  | Array Unsorted | Array Sorted | Binary Tree Sorted |
+| ---------- | -------------- | ------------ | ------------------ |
+| Insert     | \( O(1) \)     | \( O(n) \)   | \( O(\log n) \)    |
+| Get Max    | \( O(n) \)     | \( O(1) \)   | \( O(\log n) \)    |
+| Delete Max | \( O(n) \)     | \( O(1) \)   | \( O(\log n) \)    |
 
 #### Heap as a Dynamic Set of Numbers
 
@@ -237,7 +212,21 @@ Partition(A[1...n]) {
 - "Almost" full binary tree.
 - Heap property:
   - For Max heap: Parent \( \geq \) Child
+  ```
+       100
+      /   \
+    50     30
+   / \     / \
+  20  40  15  10
+  ```
   - For Min heap: Parent \( \leq \) Child
+  ```
+         10
+       /    \
+     15     20
+    / \     / \
+  40  50  30  100
+  ```
 
 #### Heap Structure Example
 
@@ -277,7 +266,7 @@ The underscores represent that heap arrays are typically 1-indexed in educationa
 
 #### Get Max Function
 
-```plaintext
+```C
 get_max() {
     return A[1];
 }
@@ -285,7 +274,7 @@ get_max() {
 
 #### Insert Function
 
-```plaintext
+```C
 insert(k) {
     n = n + 1;
     A[n] = k;
@@ -299,7 +288,7 @@ insert(k) {
 
 #### Delete Max Function
 
-```plaintext
+```C
 delete_max() {
     swap(A[1], A[n]);
     n = n - 1;
@@ -309,7 +298,7 @@ delete_max() {
 
 #### Helper Function: Heapify
 
-```plaintext
+```C
 heapify(i) {
     largest = i;
     if (left(i) <= n && A[left(i)] > A[largest]) {
@@ -326,15 +315,12 @@ heapify(i) {
 
 - The notes state that the time complexity for the heapify function is \( O(\log n) \).
 
-The notes detail the core functions used in a heap-based data structure, including `get_max`, `insert`, and `delete_max`, as well as the `heapify` helper function, which is crucial for maintaining the heap property.
-
 ### Heap Sort Algorithm - Detailed Heapify Function
 
 #### Heapify Function
 
-```plaintext
-Helper Function: Heapify
-
+```C
+// Helper Function: Heapify
 heapify(i) {
     largest = i;
     if (left(i) <= n && A[left(i)] > A[largest]) {
@@ -356,22 +342,22 @@ heapify(i) {
 
 If we have a max-heap, keep calling delete function will sort the array.
 
-```markdown
+```C
 make_heap(A[1...n]);
 
 for (i = 1 to n-1) {
-delete_max();
+  delete_max();
 }
 
 // Building a max-heap
 for (i = n/2 downto 1) {
-heapify(i);
+  heapify(i);
 }
 ```
 
 Time complexity: T(n) = O(n)
 
-```
+```C
 // Inserting elements into the heap
 for (i = 1 to n) {
     insert(n);
@@ -392,8 +378,9 @@ Heap Structure:
          (9)    (3)
         /  \     / \
       (6)  (8) (2) (1)
-      / \  /
-    (4) (5) (7)
+     /  \   /
+
+(4) (5) (7)
 ```
 
 The heap is represented as a binary tree with nodes labeled from 1 to 9, indicating the positions in the array. The tree is almost complete, with all levels fully filled except possibly the last level, which is filled from left to right.
@@ -456,7 +443,7 @@ The notes provide an example of the Counting Sort algorithm, which uses an inter
 
 ### Counting Sort Algorithm
 
-```plaintext
+```C
 counting_sort(A[1...n], k) {
     for i = 1 to n {
         B[A[i]] += 1;
@@ -513,7 +500,7 @@ The content describes the optimization of counting sort when the range `k` is la
 
 #### Counting Sort Algorithm Details
 
-```plaintext
+```C
 Input: A[1...n], k
 for i = 1 to n do
     B[f(A[i])] += 1;
