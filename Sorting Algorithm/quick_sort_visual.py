@@ -61,6 +61,7 @@ def print_state(A, i, j, p, step, action, reason):
 
 # Example usage
 A = [13, 19, 9, 5, 12, 8, 7, 4, 11, 2, 6, 21]
-final_step = quick_sort(A)
-print("Sorted array:", ' '.join(str(x) for x in A))
+B = [8, 3, 5, 7, 2, 4]
+final_step = quick_sort(B)
+print("Sorted array:", ' '.join(str(x) for x in B))
 print(f"Total steps: {final_step}")
