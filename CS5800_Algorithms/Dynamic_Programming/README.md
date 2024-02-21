@@ -366,10 +366,6 @@ subarr_sum(A[1:n]) {
 
 ---
 
-Let's continue with the digital format notes on Dynamic Programming, incorporating the content from the newly provided pages. Here's how the additional content could be structured in Markdown format:
-
----
-
 ## 0-1 Knapsack Problem
 
 The 0-1 Knapsack problem is a classic problem in combinatorial optimization. The goal is to select a subset of items, each with a value and a weight, to maximize the total value without exceeding the knapsack's capacity.
