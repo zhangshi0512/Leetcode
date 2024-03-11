@@ -958,12 +958,393 @@ f(i) = max(f(i), f(i-W[j]) + V[j]) for all j with W[j] <= i
 
 ---
 
-## Running Time Analysis
+### Running Time Analysis
 
 - The running time for the DP solution of the LCS and LIS problems is `O(n^2)`, where `n` is the length of the input sequence(s).
 - The running time for the DP solution of the bounded 0-1 Knapsack problem is `O(n*C)`, where `n` is the number of items and `C` is the knapsack capacity.
 - The running time for the DP solution of the Unbounded Knapsack problem is also `O(n*C)`.
 
-## Space Optimization
+### Space Optimization
 
 For the knapsack problems, space optimization techniques can be applied to reduce the space complexity from `O(n*C)` to `O(C)` by using a single-dimensional array and updating it in reverse order for the bounded knapsack or directly for the unbounded knapsack.
+
+## Matrix Chain Multiplication
+
+Given `n` matrices `A1, A2, ..., An` with dimensions `[P0, P1], [P1, P2], ..., [Pn-1, Pn]` where `Pi-1` and `Pi` represent the number of rows and columns, respectively.
+
+For example, the multiplication of `A1 * A2 * A3` with dimensions `[10,100], [100,10], [10,50]` can have different costs based on the sequence of multiplication. Which sequence results in a lower cost needs to be determined.
+
+Let's consider this from a general matrices multiplication perspective:
+
+- Multiplication of two matrices `P[x, q] * q[r, y]` results in `P[x, y]`:
+
+  - Each dot product: `T(n) = Θ(q)`
+  - So multiplication: `T(n) = Θ(pqr)`
+
+- What about addition?
+  - Addition of two matrices `P[x, q] + P[q, y]` results in `P[x, y]`:
+    - Each dot addition: `T(n) = Θ(q)`
+    - So addition: `T(n) = Θ(pq)`
+
+Therefore, addition performs better than multiplication in terms of complexity, and the goal is to achieve minimum cost.
+
+Now, considering the question again: Assuming we have many matrices to multiply `A1 * A2 * ... * An`, we need to design the sequence of multiplication.
+
+Which multiplication should be performed last to minimize the total cost?
+
+- If we choose `Ak * ... * An` as the last multiplication:
+  ```
+  Cost (A1 * A2 * ... * Ak * ... * An) = 0 + f(2,n) + P0 * Pk * Pn
+  ```
+  If we consider to separate the multiplication into two parts: A1, and A2 _ ... _ An.
+
+Then the cost of A1 is 0. (Single matrice does not cost anything when no multiplication happened.)
+
+The cost of `A2 * ... * An` is complicated, and we call it f(2,n).
+
+Also assume A1 has P0 rows and P1 columns, and the result matrix of `A2 * ... * An` has p1 rows and pn columns.
+
+Then the cost to multiply A1 and the result matrix of `A2 * ... * An` is P0 _ Pk _ Pn, where k is a number between 1 to n - 1.
+
+### General Formula
+
+To calculate the minimum multiplication cost, the general formula is:
+
+```
+f(1,n) = min{ f(1,k) + f(k+1,n) + Pi-1 * Pk * Pn }
+where k = 1...n-1
+```
+
+Considering any interval in the sequence `A1 * A2 * ... * Ai * ... * Aj * ... * An`:
+
+```
+f(i,j) = min{ f(i,k) + f(k+1,j) + Pi-1 * Pk * Pj }
+where k = i...j
+```
+
+The base case is for a single matrix `f(i,i) = 0`.
+
+The time complexity `T(1,n) = 2^(n-1)` is very expensive, so let's optimize it from bottom-up.
+
+### Optimization
+
+Assume `f(i, j) = min cost of A*i * A*(i+1) * ... * A_j`, where i <= j.
+
+For normal cases in matrices:
+
+```
+- f(i, i) + f(i+1, j) + multiplication cost between the result matrices
+- f(i, i+1) + f(i+2, j) + multiplication cost between the result matrices
+.
+.
+.
+- f(i, j-1) + f(j, j) + multiplication cost between the result matrices
+```
+
+f(i, j) is the minimum from the above list.
+
+The pseudocode to fill the normal case is:
+
+```plaintext
+// fill the column, c is the col#
+for (c = 2...n) {
+    // fill the row, r is the row#
+    for (r = C-1...1) {
+        dp[r][C] = ∞;
+        for (k = r...C-1) {
+            dp[r][C] = min(dp[r][C], dp[r][k] + dp[k+1][C] + P[r-1] * P[k] * P[C]);
+        }
+    }
+}
+return dp[1][n];
+```
+
+Time complexity `T(n) = Θ(n^3)`.
+
+### Smaller Example
+
+Let's see a smaller case example:
+
+| 0   | 1   | 2   | 3   |
+| --- | --- | --- | --- |
+| 10  | 100 | 10  | 50  |
+
+Matrix multiplication: A1 _ A2 _ A3
+Dimensions: [10,100], [100,10], [10,50]
+
+The dp table for storing the cost would look like:
+
+|     | 1   | 2      | 3      |
+| --- | --- | ------ | ------ |
+| 1   | 0   | 10,000 | 15,000 |
+| 2   | 0   | 0      | 50,000 |
+| 3   |     |        | 0      |
+
+From the above, we can derive the cost of multiplication for a smaller subset of matrices.
+
+For A2 \* A3, the cost is found at dp[2][3] and so on.
+
+## Longest Increasing Path from Matrix
+
+Given a `n x n` matrix with positive integers, find the longest increasing path where you can only move down and to the right.
+
+Matrix A
+| | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---|----|----|-----|----|----|-----|----|----|----|
+|0 | 73 | 51 | 35 | 27 | 23 | 97 | 78 | 93 | 19 |
+|1 | 35 | 75 | 30 | 6 | 20 | 12 | 78 | 59 | 42 |
+|2 | 91 | 10 | 39 | 70 | 83 | 7 | 93 | 51 | 62 |
+|3 | 77 | 89 | 71 | 88 | 94 | 69 | 29 | 81 | 89 |
+|4 | 81 | 35 | 5 | 79 | 43 | 100 | 2 | 88 | 80 |
+|5 | 78 | 53 | 38 | 82 | 31 | 64 | 11 | 46 | 61 |
+|6 | 6 | 90 | 13 | 16 | 43 | 58 | 12 | 45 | 25 |
+|7 | 68 | 54 | 30 | 55 | 33 | 32 | 59 | 94 | 47 |
+|8 | 14 | 99 | 100 | 89 | 24 | 95 | 87 | 1 | 89 |
+
+Define `f(i, j)` as the maximum path length ending with `c[i, j]` at position `(i, j)`.
+
+Consider reversing: `c[i-1, j] --> c[i, j]` and `c[i, j-1] --> c[i, j]`.
+
+Then:
+
+```
+f(i, j) = max {
+  1 + f(i-1, j) if A[i-1, j] < A[i, j],
+  1 + f(i, j-1) if A[i, j-1] < A[i, j]
+}
+```
+
+Solution is `max { f(i, j) }` for all `i, j`.
+
+Time Complexity: `T(n) = O(n^2)`
+
+### Pseudocode for Longest Path in Matrix:
+
+```C++
+for i = 1 to n {
+  for j = 1 to n {
+    dp[i, j] = 1;  // Initialize dp table
+    if (i > 1 && A[i-1, j] < A[i, j]) {
+      dp[i, j] = max(dp[i, j], dp[i-1, j] + 1);
+    }
+    if (j > 1 && A[i, j-1] < A[i, j]) {
+      dp[i, j] = max(dp[i, j], dp[i, j-1] + 1);
+    }
+  }
+}
+return max(dp);
+```
+
+---
+
+## Longest Path Variation
+
+Let's consider a variation of the problem where you can move in all four directions and determine the longest increasing path.
+
+Define `f(i, j)` as the longest path length ending with the position `(i, j)`.
+
+```
+f(i, j) = max {
+  1 + f(i-1, j) if A[i-1, j] < A[i, j],
+  1 + f(i, j-1) if A[i, j-1] < A[i, j],
+  1 + f(i+1, j) if A[i+1, j] < A[i, j],
+  1 + f(i, j+1) if A[i, j+1] < A[i, j]
+}
+```
+
+However, this recursion has a circular dependency problem. The circular dependency doesn't hold since this is an enforced increasing path. The issue is that you need to sort from smallest to largest value, which means you need to sort the matrix, which is too complex.
+
+It's easier to use a top-down approach with memoization.
+
+### Pseudocode for Top-Down Approach with Memoization:
+
+```C++
+function increasing_path_length(A[], i, j, dp[]) {
+  if (dp[i, j] != -1) {
+    return dp[i, j];
+  }
+  // Initialize dp table
+  dp[i, j] = 1;
+  // Check all four directions
+  if (i > 1 && A[i-1, j] < A[i, j]) {
+    dp[i, j] = max(dp[i, j], increasing_path_length(A, i-1, j, dp));
+  }
+  if (j > 1 && A[i, j-1] < A[i, j]) {
+    dp[i, j] = max(dp[i, j], increasing_path_length(A, i, j-1, dp));
+  }
+  // Consider other two directions if you move in all directions
+  return dp[i, j];
+}
+
+function main(A) {
+  dp = initialize to -1 for all elements;
+  s = 1;
+  for i = 1 to n {
+    for j = 1 to n {
+      s = max(s, increasing_path_length(A, i, j, dp));
+    }
+  }
+  return s;
+}
+```
+
+Time Complexity: `T(n) = O(n^2)`
+
+---
+
+### Summary of Dynamic Programming Solutions
+
+Quick Summary: 5 types of recursion
+
+1. **Two Sequences**: e.g., LCS (`Longest Common Subsequence`).
+2. **Single Sequence**: e.g., LIS (`Longest Increasing Subsequence`), `Subarray Sum`.
+3. **Knapsack [0-1, Unbounded]**.
+4. **Interval**.
+5. **Position**: e.g., `Increasing Path Length`.
+
+For each type of question, we design recursion differently and consider the implications on time complexity and memoization.
+
+---
+
+## Coin Change
+
+Given unlimited copies of coins with denominations `[1, 5, 10, 25]`, what is the minimum number of coins required to make a certain amount of value?
+
+### Steps to solve:
+
+1. **Identify the type of question**: This is an "unbounded knapsack" problem type.
+2. **Think about the recursion design**: Define the function `f(i)` as the minimum number of coins needed to make change for value `i`.
+
+### Recursion Formula:
+
+```
+f(i) = min {
+    f(i - d[k]) + 1 for all denominators d[k]
+}
+
+f(i) = min {
+    f(i - 1) + 1,
+    f(i - 5) + 1,
+    f(i - 10) + 1,
+    f(i - 25) + 1
+}
+```
+
+### DP Table Initialization:
+
+| dp  | 1   | 2   | ... | n   |
+| --- | --- | --- | --- | --- |
+
+### Time Complexity:
+
+T(n) = O(n \* k)
+
+where `n` is the amount of value and `k` is the number of denominators.
+
+---
+
+## Exam Score Optimization
+
+Given `n` questions, each with a certain points and time required to solve, what is the maximum score achievable within a total time limit `T` for the exam?
+
+### Problem Analysis:
+
+1. **Question type**: This is a "0-1 knapsack" problem type.
+2. **Define the function**: `f(i, j)` is the maximum score achievable given the first `i` questions and a time limit `j`.
+
+### Recurrence Relation:
+
+```
+f(i, j) = max {
+    f(i-1, j - time[i]) + points[i],
+    f(i-1, j)
+}
+```
+
+### Time Complexity:
+
+T(n) = O(n \* T)
+
+where `n` is the number of questions and `T` is the total time for the exam.
+
+---
+
+## Alphabet Sequence Problem
+
+Given a mapping of alphabets to numbers where A=1, B=2, ..., Z=26, consider a sequence of digits as a coded message. Count the number of possible alphabet sequences that the message could represent.
+
+For example:
+
+- A=1, B=2, ..., Z=26
+- AD represents 145 (A=1, D=4, AD=145)
+- NE represents 145 (N=14, E=5)
+
+We have a single sequence type question:
+
+1. Identify the single sequence type question.
+2. Design recursion to count the number of alphabet sequences.
+
+The recursion is defined as:
+
+- `f(i)` = number of alphabet sequences given digits [1:i]
+- The recursion relies on the previous computed states `f(i-1)` and `f(i-2)`.
+
+Pseudocode for the recursion could look like:
+
+```C++
+dp[1...n]   // dp array to store the number of sequences
+f(i) = f(i-1) + f(i-2)  // f(i) depends on the two preceding values
+```
+
+The DP array is filled from left to right, where `k` represents the current position being filled. The initial state `f(1)` corresponds to the first character or digit of the sequence.
+
+The running time complexity `T(n)` for this problem is `O(n)` because each state is only solved once and we iterate over the sequence once.
+
+dp // DP array representation
+| 1 | 2 | 3 | 4 |...|...| k-2 | k-1 | k |...|...| n |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+|1|4|5||||||||||
+
+The final result `f(n)` is the total number of possible alphabet sequences for the entire given sequence of digits.
+
+---
+
+## Stone Merge Game
+
+Given `n` piles of stones, each time you can merge two adjacent piles, and the score is the sum of stones in these two piles. What's the maximum score after merging all piles?
+
+### Problem Illustration:
+
+```
+Piles: [2, 5, 4]
+
+Merge [2, 5] => Score: 7
+Merge [7, 4] => Score: 11 (Total: 18)
+
+vs.
+
+Merge [5, 4] => Score: 9
+Merge [2, 9] => Score: 11 (Total: 20)
+```
+
+### DP Strategy:
+
+Define `f(i, j)` as the maximum score to merge `A[i: j]`.
+
+### Recurrence Relation:
+
+```
+f(i, j) = max {
+    f(i, k) + f(k+1, j) + sum(A[i: j])
+}
+```
+
+where `k` is between `i` and `j`.
+
+### Base Case:
+
+```
+f(i, i) = 0
+```
+
+---
