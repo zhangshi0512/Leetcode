@@ -171,3 +171,100 @@ Edges E = {(2,3), (3,4), (2,4), (1,2)}
 A topological sort might produce the sequence 1 -> 2 -> 3 -> 4.
 
 ---
+
+## Graph Algorithms: Topological Sort and Connected Components
+
+### Topological Sort using BFS (Kahn's Algorithm)
+
+Assuming we have an in-degree array to keep track of the number of edges coming into each vertex, we can perform topological sorting with the following algorithm:
+
+```python
+# Step 1: Calculate in-degrees of all vertices
+in_degree = [0] * n
+for u in range(n):
+    for v in G.neighbors(u):
+        in_degree[v] += 1
+
+# Step 2: Enqueue vertices with in-degree 0 (starting points)
+queue = []
+for u in range(n):
+    if in_degree[u] == 0:
+        queue.append(u)
+
+# Step 3: Process vertices with in-degree 0 and update in-degrees
+while queue:
+    u = queue.pop(0)
+    for v in G.neighbors(u):
+        in_degree[v] -= 1
+        if in_degree[v] == 0:
+            queue.append(v)
+```
+
+The overall running time of this algorithm is `O(n + m)`.
+
+### Depth-First Search (DFS) for Topological Sorting
+
+Here is how we can modify the DFS algorithm to perform a topological sort:
+
+```python
+def DFS(G, s, visited, L):
+    visited[s] = True
+    for u in G.neighbors(s):
+        if not visited[u]:
+            DFS(G, u, visited, L)
+    L.append(s)
+
+def DFS_All(G):
+    visited = [False] * len(G.vertices)
+    L = []
+    for s in range(len(G.vertices)):
+        if not visited[s]:
+            DFS(G, s, visited, L)
+    L.reverse()
+    return L
+```
+
+The modified DFS algorithm with a list `L` stores the vertices in a way that can be reversed at the end to provide a topological ordering. The time complexity of this approach is `O(n + m)`.
+
+### Finding Connected Components in an Undirected Graph
+
+To find connected components, we can use a breadth-first search starting from each unvisited vertex:
+
+```python
+def BFS_All(G):
+    visited = [False] * len(G.vertices)
+    CC = [None] * len(G.vertices)  # Connected Components
+    id = 0  # Component ID
+
+    for s in range(len(G.vertices)):
+        if not visited[s]:
+            id += 1
+            BFS(G, s, visited, CC, id)
+    return CC, id
+
+def BFS(G, s, visited, CC, id):
+    visited[s] = True
+    queue = [s]
+    while queue:
+        u = queue.pop(0)
+        CC[u] = id
+        for v in G.neighbors(u):
+            if not visited[v]:
+                queue.append(v)
+                visited[v] = True
+```
+
+The time complexity for finding connected components is `O(n + m)`.
+
+### Representing a Grid for Land and Water Mapping
+
+Consider a grid where 0 represents water and 1 represents land. We can traverse this grid to identify distinct land areas or 'islands'.
+
+| 0   | 1   | 1   | 0   | 1   |
+| --- | --- | --- | --- | --- |
+| 0   | 1   | 0   | 0   | 0   |
+| 1   | 0   | 0   | 1   | 1   |
+| 0   | 0   | 0   | 1   | 1   |
+| 0   | 0   | 1   | 1   | 1   |
+
+---
