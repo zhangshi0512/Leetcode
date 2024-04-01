@@ -15,12 +15,29 @@ Vertices V = {1, 2, 3, 4, 5}
 Edges E = {(1,2), (1,3), (2,3), (3,5), (4,2), (4,3), (5,4)}
 ```
 
+```mermaid
+graph LR
+1-->2
+1-->3
+2-->3
+3-->5
+4-->2
+5-->4
+```
+
 ### Undirected Graph Example:
 
 ```plaintext
 Undirected Graph G2:
 Vertices V = {1, 2, 3, 4}
 Edges E = {(1,2), (2,1), (1,3), (3,1)}
+```
+
+```mermaid
+graph LR
+    1---2
+    1---3
+    4
 ```
 
 ## Graph Representation:
@@ -58,7 +75,19 @@ Assuming a graph with |V| = n and |E| = m.
 Note:
 
 - Self-loops with two nodes are not allowed in class examples. (n->v and v->n)
+
+```mermaid
+graph LR
+n-->v
+v-->n
+```
+
 - Self-loops with single node is allowed in this class. (n->n)
+
+```mermaid
+graph LR
+n-->n
+```
 
 For the number of edges, we have:
 
@@ -87,6 +116,16 @@ BFS explores all reachable vertices in layers. It uses a queue data structure to
 Directed Graph G:
 Vertices V = {1, 2, 3, 4, 5}
 Edges E = {(2,1), (3,1), (2,3), (3,5), (4,2), (4,5)}
+```
+
+```mermaid
+graph LR
+2-->1
+2-->3
+1-->3
+1-->4
+3-->4
+4-->5
 ```
 
 ### BFS Algorithm Pseudocode:
