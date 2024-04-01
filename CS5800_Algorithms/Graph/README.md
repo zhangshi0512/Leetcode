@@ -677,11 +677,21 @@ graph LR
 
 Given a topologically sorted graph and a source vertex `S`, the algorithm is as follows:
 
-```plaintext
-Initialize distances from `S` to all vertices as infinity, except `dist[S] = 0`.
-For each vertex `u` in topological order:
-  For each neighbor `v` of `u`:
-    Relax the edge (u, v).
+```C++
+function relax(u, v){
+    if (dist[u] + weight(u, v) < dist[v]){
+        dist[v] = dist[u] + weight(u, v);
+        path[v] = u;
+    }
+}
+
+dist[s] = 0;
+dist[v] = Infinity for all v!= s
+path[v] = -1 for all v
+for each vertex u in topological order:
+    for each neighbor v of u:
+        relax(u, v)
+return dist, path
 ```
 
 Relaxation refers to the process of updating the shortest path if a shorter path is found.
