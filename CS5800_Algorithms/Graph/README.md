@@ -352,6 +352,118 @@ For a directed graph `G`, a plaintext representation can be as follows:
 For strongly connected components:
 
 - `G1`: Represents a graph with one SCC.
+
+```
+G1 = {1, 2, 3, 4}
+Edges: (1->2), (2->3), (3->4), (4->1), (1->4)
+```
+
+```mermaid
+graph LR
+1-->2
+2-->3
+3-->4
+4-->1
+1-->4
+```
+
 - `G2`: Represents a graph with separate SCCs.
 
+```
+G2 = {1, 2, 3, 4}
+Edges: (1->2), (2->3), (3->4), (4->3), (1->4)
+```
+
+```mermaid
+graph LR
+1-->2
+2-->3
+3-->4
+4-->3
+1-->4
+```
+
 ---
+
+There are 3 Strongly Connected Components (SCCs) identified by the DFS process:
+
+```mermaid
+graph LR
+1-->4
+2-->3
+3-->2
+3-->1
+4-->2
+4-->5
+5-->6
+6-->5
+5-->7
+7-->8
+8-->9
+9-->7
+```
+
+SCC 1:
+
+- Nodes: 1, 2, 3, 4
+- Directed Edges: (1->4), (2->3), (3->2), (3->1), (4->2)
+
+```mermaid
+graph LR
+1-->4
+2-->3
+3-->2
+3-->1
+4-->2
+```
+
+SCC 2:
+
+- Nodes: 5, 6
+- Directed Edges: (5->6), (6->5)
+
+```mermaid
+graph LR
+5-->6
+6-->5
+```
+
+SCC 3:
+
+- Nodes: 7, 8, 9
+- Directed Edges: (7->8), (8->9), (9->7)
+
+```mermaid
+graph LR
+7-->8
+8-->9
+9-->7
+```
+
+Finish Time Ordering:
+
+- For SCC 1: Finish time is highest for node 1 and lowest for node 4.
+- For SCC 2: Finish time is equal for nodes 5 and 6 since they form a cycle.
+- For SCC 3: Finish time is highest for node 7 and lowest for node 9.
+
+After reversing all directions of edges we get:
+
+- SCC 1: (2->3), (3->2), (1->3), (2->4), (4->1)
+- SCC 2: (6->5), (5->6)
+- SCC 3: (8->7), (9->8), (7->9)
+
+```mermaid
+graph LR
+    4-->1
+    3-->2
+    2-->3
+    1-->3
+    2-->4
+    5-->4
+    6-->5
+    5-->6
+    7-->5
+    8-->7
+    9-->8
+    7-->9
+```
