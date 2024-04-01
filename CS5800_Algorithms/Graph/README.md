@@ -154,6 +154,8 @@ def DFS_All(G):
 
 The time complexity of DFS is O(n + m), where n is the number of vertices and m is the number of edges.
 
+---
+
 ## DAG (Directed Acyclic Graph) and Topological Sort
 
 DAGs do not have cycles, and a topological sort of a DAG lists all vertices in linear order, ensuring that for every directed edge u -> v, vertex u comes before v in the ordering.
