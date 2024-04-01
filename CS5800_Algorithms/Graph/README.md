@@ -271,6 +271,20 @@ Consider a grid where 0 represents water and 1 represents land. We can traverse 
 
 ## Graph Theory: Cycle Detection, DFS, and SCC
 
+### Recap
+
+1. **Graph**: A graph is a pair of sets (V, E) where V is the set of vertices and E is the set of edges.
+2. **Adjacency List**: A graph can be represented using an adjacency list, where each vertex u has a list of its neighbors v.
+3. **Adjacency Matrix**: A graph can be represented using an adjacency matrix, where each vertex u has a row and column, and the value at position (u,v) is 1 if there is an edge from u to v, and 0 otherwise.
+4. **BFS**: Breadth-First Search is a graph search algorithm that explores all reachable vertices in layers.
+5. **DFS**: Depth-First Search is a graph search algorithm that explores as far as possible along each branch before backtracking.
+6. **DAG**: A Directed Acyclic Graph (DAG) is a directed graph with no directed cycles.
+7. **Topological Sort**: A topological sort of a DAG lists all vertices in linear order, ensuring that for every directed edge u -> v, vertex u comes before v in the ordering.
+8. **Connected Components**: A connected component of a graph is a maximal set of vertices such that every pair of vertices in the component is connected by a path.
+9. **Strongly Connected Components**: A strongly connected component of a directed graph is a maximal set of vertices such that every pair of vertices in the component is reachable from every other vertex in the component.
+10. **Cycle Detection**: A cycle in a graph is a path that starts and ends at the same vertex.
+11. **DFS for Cycle Detection**: DFS can be used to detect cycles in a graph.
+
 ### Directed Acyclic Graph (DAG) and Cycle Detection
 
 A Directed Acyclic Graph, or DAG, is a directed graph with no directed cycles. To detect cycles in a DAG, we can use the following method:
@@ -302,6 +316,21 @@ DFS(G, u, color[]) {
         }
     }
     color[u] = Black; // Mark the vertex as finished
+    return False;
+}
+```
+
+```C
+DFS_ALL(G) {
+    for(u in G.vertices) {
+        color[u] = White;
+    }
+
+    for(u in G.vertices) {
+        if (color[u] == White) {
+            if (DFS(G, u, color)) return True; // Found a cycle
+        }
+    }
     return False;
 }
 ```
