@@ -268,3 +268,61 @@ Consider a grid where 0 represents water and 1 represents land. We can traverse 
 | 0   | 0   | 1   | 1   | 1   |
 
 ---
+
+## Graph Theory: Cycle Detection, DFS, and SCC
+
+### Directed Acyclic Graph (DAG) and Cycle Detection
+
+A Directed Acyclic Graph, or DAG, is a directed graph with no directed cycles. To detect cycles in a DAG, we can use the following method:
+
+```plaintext
+To identify a cycle:
+1. Identify the vertices with 0 in-degree, remove them.
+2. Keep doing so until you cannot remove anymore or the graph has been completely removed.
+3. If the graph cannot be completely removed, there's a cycle.
+```
+
+For example, given two graphs G1 and G2:
+
+- `G1`: Contains a cycle among the vertices.
+- `G2`: No cycle, as all vertices are removed by iteratively removing those with 0 in-degree.
+
+### Depth-First Search (DFS) for Cycle Detection
+
+DFS is a fundamental algorithm in graph theory that can be used for various purposes, including cycle detection:
+
+```C
+DFS(G, u, color[]) {
+    color[u] = Grey; // Mark the vertex as being visited
+    for(v in G.neighbors(u)) {
+        if (color[v] == White) {
+            if (DFS(G, v, color)) return True; // Found a cycle
+        } else if (color[v] == Grey) {
+            return True; // Found a cycle
+        }
+    }
+    color[u] = Black; // Mark the vertex as finished
+    return False;
+}
+```
+
+### Strongly Connected Components (SCC)
+
+In a directed graph, a Strongly Connected Component (SCC) is a subset of the graph where every vertex is reachable from every other vertex in the subset.
+
+```plaintext
+u, v ∈ SCC if and only if there exists a path from u to v and v to u.
+```
+
+### Graph Representation in Plaintext
+
+For a directed graph `G`, a plaintext representation can be as follows:
+
+- `Directed Graph G`: {(a->b), (b->c), ..., (g->h)}
+
+For strongly connected components:
+
+- `G1`: Represents a graph with one SCC.
+- `G2`: Represents a graph with separate SCCs.
+
+---
