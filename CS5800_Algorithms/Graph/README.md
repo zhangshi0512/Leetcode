@@ -57,8 +57,8 @@ Assuming a graph with |V| = n and |E| = m.
 
 Note:
 
-- Self-loops are not allowed in class examples.
-- Self-loops are allowed outside of class.
+- Self-loops with two nodes are not allowed in class examples. (n->v and v->n)
+- Self-loops with single node is allowed in this class. (n->n)
 
 For the number of edges, we have:
 
