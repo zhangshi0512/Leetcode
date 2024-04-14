@@ -38,9 +38,14 @@ def prims(graph, starting_vertex):
                 if to_next not in visited:
                     heapq.heappush(edges, (cost, to, to_next))
 
-        # Record the current edge weights
-        cost_table.append({vertex: min(edge[0] if edge[1] == vertex else float(
-            'inf') for edge in edges) for vertex in graph.keys()})
+    # Record the current edge weights
+    if edges:  # Check if there are any edges left to process
+        cost_table.append({
+            vertex: min((edge[0] for edge in edges if edge[1]
+                        == vertex), default=float('inf'))
+            for vertex in graph.keys()
+            if vertex not in visited
+        })
 
     return mst, cost_table
 
@@ -99,4 +104,7 @@ rank = dict()
 # Run Kruskal's algorithm
 mst_kruskal, disjoint_set_snapshots = kruskal(graph)
 
-(mst_prims, cost_table_prims), (mst_kruskal, disjoint_set_snapshots)
+print('mst_prims:', mst_prims, 'cost_table_prims:', cost_table_prims)
+
+print('mst_kruskal:', mst_kruskal,
+      'disjoint_set_snapshots:', disjoint_set_snapshots)
