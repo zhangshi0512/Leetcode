@@ -48,16 +48,76 @@ def bellman_ford(graph, source):
 try:
     shortest_paths_bf, table_bf, predecessors_bf = bellman_ford(graph_bf, 'S')
 
+    # Extracting nodes for table headers
+    vertices = list(graph_bf.keys())
+
     # Print the table
     print("Iteration table showing shortest paths from S:")
-    for i, distances in enumerate(table_bf):
-        print(f"Iteration {i+1}: {distances}")
+    print(f"{'Node':<10}", end='')
+    # Assuming vertices is the list/set of all nodes in the graph
+    for i in range(len(vertices)):
+        print(f"{'Iter'+str(i+1):<10}", end='')
+    print()
 
-    # Print shortest path tree result for verification
-    print("\nShortest path tree from node S:")
-    for node, predecessor in predecessors_bf.items():
-        if predecessor is not None:
-            print(f"{predecessor} -> {node}")
+    for node in vertices:
+        print(f"{node:<10}", end='')
+        for i in range(len(vertices)):
+            dist = table_bf[i].get(node, float('inf'))
+            if dist == float('inf'):
+                print(f"{'∞':<10}", end='')
+            else:
+                print(f"{dist:<10}", end='')
+        print()
+
+    print("\nShortest path from node S to other nodes:")
+    for node, dist in shortest_paths_bf.items():
+        print(f"S to {node}: {dist}")
+
 
 except ValueError as e:
     print(e)
+
+
+shortest_paths = {
+    'S': 0,
+    'A': 7,
+    'B': 11,
+    'C': 5,
+    'D': 7,
+    'E': 6,
+    'F': 4,
+    'G': 8,
+    'H': 7,
+    'I': 7
+}
+
+# This would need logic based on how parent nodes were determined
+# during your path calculations:
+parent_nodes = {
+    'S': None,  # Source has no parent
+    'A': 'S',
+    'B': 'D',
+    'C': 'F',
+    'D': 'E',
+    'E': 'F',
+    'F': 'S',
+    'G': 'F',
+    'H': 'I',
+    'I': 'H'
+}
+
+
+def construct_shortest_path_tree(parent_nodes):
+    tree = {}
+    for node in parent_nodes:
+        parent = parent_nodes[node]
+        if parent:
+            if parent not in tree:
+                tree[parent] = [node]
+            else:
+                tree[parent].append(node)
+    return tree
+
+
+tree = construct_shortest_path_tree(parent_nodes)
+print(tree)
