@@ -1,6 +1,6 @@
 # Single Source Shortest Path (SSSP)
 
-## Recap: SSSP
+### Recap: SSSP
 
 - G = (V, E) where:
   - (u, v) ∈ E
@@ -29,9 +29,9 @@ if dist[u] + w[u, v] < dist[v]
 
 ---
 
-# Dijkstra’s Algorithm
+### Dijkstra’s Algorithm
 
-## Initialization
+#### Initialization
 
 ```
 Dijkstra’s Initialization
@@ -47,7 +47,7 @@ while |N| ≠ n
        relax(u, v)
 ```
 
-## Example
+#### Example
 
 ```mermaid
 graph LR
@@ -156,7 +156,7 @@ Note: Since `π` is initialized with all zeros in your notes, I am assuming `-1`
 | union     | O(1)        | O(logn)          |
 | relax     | O(n)        | O((m+n)logn)     |
 
-## Example Graph with Weighted Edges
+### Example Graph with Weighted Edges
 
 ```mermaid
 graph LR
@@ -171,7 +171,7 @@ graph LR
 
 - The edges have weights denoted on the lines connecting the vertices.
 
-## Pseudocode for Dijkstra's Algorithm
+#### Pseudocode for Dijkstra's Algorithm
 
 ```
 pick_min(dist[], pick[])
@@ -183,7 +183,7 @@ for (v = 1; v <= n; v++) {
 }
 ```
 
-## Operations on Min Heap (Priority Queue)
+#### Operations on Min Heap (Priority Queue)
 
 ```plaintext
 MinHeap / PriorityQueue operations:
@@ -192,7 +192,7 @@ MinHeap / PriorityQueue operations:
 - insert
 ```
 
-## Data Structures for Dijkstra's Algorithm
+### Data Structures for Dijkstra's Algorithm
 
 - A: Array representing vertices
 - V: Vertex
@@ -204,7 +204,7 @@ graph TD
     V --> N[Set N]
 ```
 
-## Example with Negative Weights
+#### Example with Negative Weights
 
 Never use Dijkstra's Algorithm on a graph with negative weights.
 
@@ -284,9 +284,9 @@ In our specific example, the direct path from `1` to `3` initially seems shorter
 
 ---
 
-# Simple Path and Bellman-Ford Algorithm
+## Simple Path and Bellman-Ford Algorithm
 
-## Simple Path Definition
+### Simple Path Definition
 
 - A simple path in a graph is a path that does not contain repeated vertices.
 - Represented as: S → X → Y → U
@@ -304,7 +304,7 @@ graph LR
 
 ## Bellman-Ford Algorithm
 
-### Pseudocode for Bellman-Ford Algorithm
+#### Pseudocode for Bellman-Ford Algorithm
 
 ```plaintext
 Bellman-Ford Algorithm:
@@ -320,10 +320,179 @@ for i = 1 to n-1 {
 - The Bellman-Ford algorithm is not as efficient as the Dijkstra's algorithm but is simple to implement.
 - The algorithm can handle graphs with negative weight edges, and it is also used to detect negative weight cycles in a graph.
 
-### Time Complexity and Detection of Negative Cycles
+#### Time Complexity and Detection of Negative Cycles
 
 - The time complexity is O(n⋅m), where n is the number of vertices and m is the number of edges.
 - To detect negative cycles, run `relax` for all edges one more time after the n-1 iterations.
 - If we can relax any edge, it means there is a negative cycle.
 
 ---
+
+### Understanding the Shortest Path in a Directed Graph
+
+Given a directed graph, we are interested in finding the shortest path from a source vertex `s` to a destination vertex `u`. The shortest path has the minimum total edge weight compared to any other path between the same vertices.
+
+### Bellman-Ford Algorithm Example
+
+Using the Bellman-Ford algorithm, we iterate through all the edges of the graph and relax the distances. The process is repeated `n-1` times, where `n` is the number of vertices.
+
+**Given Graph:**
+
+```mermaid
+graph LR
+    3 -- 4 --> 1
+    3 -- 5 --> 4
+    4 -- -3 --> 1
+    1 -- 5 --> 2
+```
+
+**Starting Vertex (s):** `3`
+
+**Iteration Process:**
+
+1. `i = 0`
+
+   - `dist = [∞, ∞, 0, ∞, ∞]`
+   - Shortest path yet to be determined for all vertices except for the source.
+
+2. `i = 1`
+
+   - `dist = [4, 5, 0, 9, ∞]`
+   - The first iteration updates the distances of vertices directly reachable from the source.
+
+3. `i = 2`
+
+   - `dist = [2, 5, 0, 5, ∞]`
+   - In the second iteration, the algorithm finds a shorter path to vertex `1` through vertex `2`.
+
+4. `i = 3`
+   - `dist = [2, 5, 0, 5, ∞]`
+   - Subsequent iterations confirm the shortest paths or find new ones if negative cycles exist.
+
+**Shortest Path Notation:**
+
+A shortest path from `s` to `u` can be denoted as a sequence of vertices, starting with `s` and ending with `u`, with the property that the sum of the weights of the consecutive edges is minimized.
+
+**Maximum Number of Edges in a Shortest Path:**
+
+The maximum number of edges in a simple shortest path in a graph is `n-1`, where `n` is the total number of vertices.
+
+- For a graph with `n` vertices, a shortest path can have at most `n-1` edges because a path with `n` edges would have to visit at least one vertex twice, which would not be a simple path.
+
+**Examples:**
+
+- `i = 1`: A path with one edge, the shortest path between two directly connected vertices.
+- `i = 2`: A path with two edges, and so on.
+
+---
+
+## All Pairs Shortest Path
+
+In the problem of all pairs shortest path, we want to find the shortest paths between all pairs of vertices in a graph G=(V,E). The graph can have either directed or undirected edges, which can have positive or negative weights. The goal is to find a path between every pair of vertices u and v that has the least total weight.
+
+### Options for Finding All Pairs Shortest Paths:
+
+Run Single Source Shortest Path (SSSP) 'n' times: One approach to finding all pairs shortest paths is to run a single source shortest path algorithm for each vertex in the graph.
+
+| Criteria                         | DAG | Positive Weight | Time Complexity            | Algorithm                |
+| -------------------------------- | --- | --------------- | -------------------------- | ------------------------ |
+| Directed Acyclic Graph           | Y   | Y               | O(m + n)                   | Modified SSSP Algorithm  |
+| No Negative Weight Edges         | N   | Y               | O(n^2) or O((m + n) log n) | Dijkstra’s Algorithm     |
+| Has Negative Weight Edges        | N   | N               | O(n ⋅ m)                   | Bellman-Ford Algorithm   |
+| Compute All Pairs Shortest Paths | N/A | N/A             | O(n^3)                     | Floyd-Warshall Algorithm |
+
+### Modified SSSP Algorithm
+
+The modified SSSP algorithm is a variant of the Bellman-Ford algorithm that can handle directed acyclic graphs (DAGs) with positive weight edges. The algorithm is similar to the Bellman-Ford algorithm, but it uses a queue to relax the edges in the order in which they are encountered.
+
+The algorithm starts at the source vertex `s` and iteratively updates the distances of all vertices reachable from `s`. The algorithm uses a queue to relax the edges in the order in which they are encountered.
+
+The algorithm terminates when the distances of all vertices have been updated `n-1` times, where `n` is the number of vertices.
+
+1. Initialize the distances of all vertices to infinity except for the source vertex `s`, which is set to 0.
+2. Initialize a queue with the source vertex `s`.
+3. For each vertex `u` in the queue, relax all the edges from `u` to its neighbors.
+4. If any edge is relaxed, add the neighbor to the queue.
+5. Repeat steps 3-4 until the queue is empty or the distances of all vertices have been updated `n-1` times.
+
+#### Modified SSSP Algorithm for DAG
+
+```C++
+// Topologically sort the DAG to determine the order of processing vertices
+topological_order = topological_sort(DAG)
+
+// Initialize distances and predecessors
+for each vertex v in DAG:
+    dist[v] = infinity
+    predecessor[v] = null
+dist[s] = 0 // Set the source vertex distance to zero
+
+// Relax the edges according to the topological order
+for each vertex u in topological_order:
+    for each neighbor v of u:
+        // Relaxation step
+        if dist[u] + weight(u, v) < dist[v]:
+            dist[v] = dist[u] + weight(u, v)
+            predecessor[v] = u
+```
+
+### Floyd-Warshall Algorithm Example:
+
+The Floyd-Warshall algorithm uses a matrix to store the shortest path distances between each pair of vertices. The algorithm iteratively updates the matrix to find the shortest paths using a dynamic programming approach.
+
+Given Graph for Floyd-Warshall Example:
+
+```mermaid
+graph LR
+1 -- 10 --> V
+2 -- 5 --> V
+U -- 10 --> 1
+U -- 5 --> 2
+U -- 100 --> V
+```
+
+f_0(u, v) = 100
+f_1(u, v) = min{f_0(u, v), f_0(u, 1) + f_1(1, v)}
+f_2(u, v) = min{f_1(u, v), f_1(u, 2) + f_1(2, v)}
+
+#### Floyd-Warshall Initialization:
+
+The Floyd-Warshall algorithm uses a matrix to store the shortest path distances between each pair of vertices. The algorithm iteratively updates the matrix to find the shortest paths using a dynamic programming approach.
+
+The algorithm initializes the matrix with the edge weights of the graph. If there is no edge between two vertices, the weight is set to infinity.
+
+The algorithm then iteratively updates the matrix to find the shortest paths between all pairs of vertices. The algorithm uses the following recurrence relation:
+
+f_k(u,v) = min(f_k-1(u,v), f_k-1(u,k) + f_k-1(k,v))
+
+where f_k(u,v) is the shortest path distance from vertex u to vertex v using at most k edges.
+
+f_0(u,v)=∞ for all u,v except when u=v or there is an edge (u,v).
+
+f_0(u,v)=w(u,v) for all edges (u,v) in the graph.
+
+#### Pseudocode for Floyd-Warshall Algorithm:
+
+```plaintext
+Floyd-Warshall Algorithm:
+for k = 0 to n-1 {
+  for i = 1 to n {
+    for j = 1 to n {
+      if (i!= j) {
+
+        f[i][j] = min(f[i][j], f[i][k] + f[k][j])
+      }
+    }
+  }
+}
+```
+
+#### Time Complexity of Floyd-Warshall Algorithm:
+
+The Floyd-Warshall algorithm has a time complexity of O(n^3), where n is the number of vertices. The algorithm is used to find the shortest path between all pairs of vertices in a graph.
+
+#### Considerations When Using Floyd-Warshall Algorithm:
+
+- This algorithm is very efficient for dense graphs where m is close to n^2.
+- It is suitable for graphs with negative weights, as long as there are no negative cycles.
+- If a negative cycle is present, the algorithm will detect it by finding a distance that becomes negative in the diagonal of the distance matrix.
