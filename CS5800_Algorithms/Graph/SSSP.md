@@ -473,18 +473,36 @@ f_0(u,v)=w(u,v) for all edges (u,v) in the graph.
 
 #### Pseudocode for Floyd-Warshall Algorithm:
 
-```plaintext
-Floyd-Warshall Algorithm:
-for k = 0 to n-1 {
-  for i = 1 to n {
-    for j = 1 to n {
-      if (i!= j) {
+```C++
+// A is the adjacency matrix where A[u][v] is the weight of the edge (u, v)
+// n is the number of vertices
 
-        f[i][j] = min(f[i][j], f[i][k] + f[k][j])
-      }
+// Initialize the solution matrix same as the input graph matrix
+for u = 1 to n {
+    for v = 1 to n {
+        if there is an edge from u to v then
+            dist[u][v] = weight of edge (u, v)
+        else if u = v then
+            dist[u][v] = 0
+        else
+            dist[u][v] = infinity
     }
-  }
 }
+
+// Adding vertices individually to the set of intermediate vertices
+for k = 1 to n {
+    // Pick all vertices as source one by one
+    for u = 1 to n {
+        // Pick all vertices as destination for the above-picked source
+        for v = 1 to n {
+            // If vertex k is on the shortest path from u to v, then update the value of dist[u][v]
+            if dist[u][k] + dist[k][v] < dist[u][v] then
+                dist[u][v] = dist[u][k] + dist[k][v]
+        }
+    }
+}
+
+return dist
 ```
 
 #### Time Complexity of Floyd-Warshall Algorithm:
