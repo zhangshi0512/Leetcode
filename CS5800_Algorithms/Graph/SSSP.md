@@ -551,6 +551,58 @@ The adjacency matrix \( A \) and its higher powers represent the paths of length
 - \( A^2 \) represents paths of length 2, which is the number of ways to go from one vertex to another in exactly 2 steps.
 - Similarly, \( A^3 \) and \( A^4 \) give us paths of lengths 3 and 4, respectively.
 
+#### Initial Adjacency Matrix \( A^1 \):
+
+|     | 1   | 2   | 3   | 4   |
+| --- | --- | --- | --- | --- |
+| 1   | 0   | 1   | 0   | 0   |
+| 2   | 0   | 0   | 1   | 0   |
+| 3   | 0   | 0   | 0   | 1   |
+| 4   | 0   | 0   | 0   | 0   |
+
+#### Matrix \( A^2 \) (Paths of length 2):
+
+|     | 1   | 2   | 3   | 4   |
+| --- | --- | --- | --- | --- |
+| 1   | 0   | 0   | 1   | 0   |
+| 2   | 0   | 0   | 0   | 1   |
+| 3   | 0   | 0   | 0   | 0   |
+| 4   | 0   | 0   | 0   | 0   |
+
+#### Matrix \( A^3 \) (Paths of length 3):
+
+|     | 1   | 2   | 3   | 4   |
+| --- | --- | --- | --- | --- |
+| 1   | 0   | 0   | 0   | 1   |
+| 2   | 0   | 0   | 0   | 0   |
+| 3   | 0   | 0   | 0   | 0   |
+| 4   | 0   | 0   | 0   | 0   |
+
+#### Graph G' (With a new edge from 2 to 4):
+
+```mermaid
+graph LR
+    1 --> 2 --> 4
+    2 --> 3 --> 4
+```
+
+#### Adjacency Matrix A' for Graph G':
+
+|     | 1   | 2   | 3   | 4   |
+| --- | --- | --- | --- | --- |
+| 1   | 0   | 1   | 0   | 0   |
+| 2   | 0   | 0   | 1   | 1   |
+| 3   | 0   | 0   | 0   | 1   |
+
+#### Matrix \( (A')^2 \) for Graph G':
+
+|     | 1   | 2   | 3   | 4   |
+| --- | --- | --- | --- | --- |
+| 1   | 0   | 0   | 1   | 1   |
+| 2   | 0   | 0   | 0   | 1   |
+| 3   | 0   | 0   | 0   | 0   |
+| 4   | 0   | 0   | 0   | 0   |
+
 #### Calculation Method
 
 To calculate the number of paths of a certain length, we use matrix multiplication rules. Here's an illustration for a 4-vertex graph \( G \):
