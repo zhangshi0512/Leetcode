@@ -514,3 +514,128 @@ The Floyd-Warshall algorithm has a time complexity of O(n^3), where n is the num
 - This algorithm is very efficient for dense graphs where m is close to n^2.
 - It is suitable for graphs with negative weights, as long as there are no negative cycles.
 - If a negative cycle is present, the algorithm will detect it by finding a distance that becomes negative in the diagonal of the distance matrix.
+
+---
+
+## Path Multiplication and Adjacency Matrices
+
+When analyzing paths in a graph, particularly directed graphs, we can use matrix multiplication to calculate the number of paths of different lengths between vertices. This method is based on the concept of adjacency matrices and their powers.
+
+### Adjacency Matrix and Path Calculation
+
+An adjacency matrix \( A \) of a graph is a square matrix used to represent which vertices (or nodes) of a graph are adjacent to which other vertices.
+
+- For a graph \( G \), the adjacency matrix \( A \) has a size \( n \times n \) where \( n \) is the number of vertices in \( G \).
+- Each element \( A[i][j] \) is 1 if there is an edge from vertex \( i \) to vertex \( j \), otherwise, it is 0.
+
+### Powers of the Adjacency Matrix
+
+The \( k \)-th power of the adjacency matrix \( A^k \) (found by multiplying \( A \) by itself \( k \) times) gives us a new matrix where the entry \( A^k[i][j] \) represents the number of paths of length \( k \) from vertex \( i \) to vertex \( j \).
+
+- \( A^1 \) is simply the adjacency matrix \( A \).
+- \( A^2 \) will give the number of paths of length 2 between vertices.
+- And so on, up to \( A^n \), which will consider paths that could potentially pass through every vertex.
+
+#### Example
+
+Given a directed graph \( G \):
+
+```mermaid
+graph LR
+    1 --> 2 --> 3 --> 4
+```
+
+The adjacency matrix \( A \) and its higher powers represent the paths of lengths 1, 2, ...:
+
+- \( A^1 \) represents all direct paths of length 1 between the vertices.
+- \( A^2 \) represents paths of length 2, which is the number of ways to go from one vertex to another in exactly 2 steps.
+- Similarly, \( A^3 \) and \( A^4 \) give us paths of lengths 3 and 4, respectively.
+
+#### Calculation Method
+
+To calculate the number of paths of a certain length, we use matrix multiplication rules. Here's an illustration for a 4-vertex graph \( G \):
+
+- \( A^2 \) is calculated by multiplying the adjacency matrix \( A \) by itself.
+- The matrix \( A^3 \) is calculated by multiplying \( A^2 \) by \( A \), and so on.
+
+---
+
+## Floyd-Warshall Algorithm: Iterative Path Discovery
+
+The Floyd-Warshall algorithm uses a dynamic programming approach to iteratively improve the shortest path estimates between all pairs of vertices in a graph.
+
+#### Key Concepts
+
+- **Transitive Closure**: The transitive closure of a graph indicates whether there is a path between each pair of vertices. It can be represented as a matrix where each element is either 1 (a path exists) or 0 (no path exists).
+- **Shortest Paths**: The shortest path between any two vertices is calculated iteratively, factoring in all possible intermediate vertices.
+
+#### Pseudocode for the Floyd-Warshall Algorithm
+
+The pseudocode for the Floyd-Warshall algorithm iterates over all pairs of vertices and attempts to find a shorter path via an intermediate vertex.
+
+```C++
+// A is the adjacency matrix where A[u][v] is the weight of the edge (u, v)
+// n is the number of vertices
+
+Let A be a matrix where A[u][v] is the weight from u to v.
+
+// Initialize the solution matrix same as the input graph matrix
+for u = 1 to n {
+    for v = 1 to n {
+        if there is an edge from u to v then
+            dist[u][v] = weight of edge (u, v)
+        else if u = v then
+            dist[u][v] = 0
+        else
+            dist[u][v] = infinity
+    }
+}
+
+// Adding vertices individually to the set of intermediate vertices
+for k = 1 to n {
+    // Pick all vertices as source one by one
+    for u = 1 to n {
+        // Pick all vertices as destination for the above-picked source
+        for v = 1 to n {
+            // If vertex k is on the shortest path from u to v, then update the value of dist[u][v]
+            if dist[u][k] + dist[k][v] < dist[u][v] then
+                dist[u][v] = dist[u][k] + dist[k][v]
+        }
+    }
+}
+
+return dist
+```
+
+#### Time Complexity of the Floyd-Warshall Algorithm
+
+The Floyd-Warshall algorithm has a time complexity of O(n^3), where n is the number of vertices. The algorithm is used to find the shortest path between all pairs of vertices in a graph.
+
+#### Considerations When Using the Floyd-Warshall Algorithm
+
+// Iterative calculation of shortest paths
+for each vertex k
+for each vertex u
+for each vertex v
+if A[u][k] + A[k][v] < A[u][v]
+A[u][v] = A[u][k] + A[k][v]
+
+// The matrix A now contains the shortest paths between all pairs of vertices
+
+#### Example with Path Matrices
+
+Consider a graph \( G \) with 4 vertices and its adjacency matrix \( A \). The matrices \( A^1, A^2, \ldots, A^n \) are calculated iteratively:
+
+- \( A^1 \) is the initial adjacency matrix.
+- \( A^2 \) is the result of multiplying \( A^1 \) by \( A \) which represents paths of length 2.
+- This process continues, where each matrix \( A^k \) represents the number of paths of length \( k \) between vertices.
+
+#### Visualization of Matrix Multiplication
+
+The multiplication of adjacency matrices to form higher powers (e.g., \( A^2, A^3 \)) provides a visual representation of paths of length 2, 3, etc., in the graph.
+
+- By multiplying the matrices, you aggregate the paths through intermediate vertices and sum the number of paths.
+
+The process reflects the key principle of dynamic programming used in the Floyd-Warshall algorithm, which is to build up a solution using previously computed values.
+
+---
