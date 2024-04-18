@@ -349,3 +349,131 @@ Each time we perform a union operation by rank, we ensure that the height of the
 This can be proven by induction, and it supports the notion that using rank can help keep the trees shallow and the operations efficient.
 
 ---
+
+### Path Compression in Union-Find
+
+Path compression is an optimization technique used in the `Find` operation of the Union-Find data structure, which flattens the structure of the tree every time `Find` is used.
+
+#### Pseudocode for Path Compression
+
+```C
+function Find(u)
+    if parent[u] != u
+        parent[u] = Find(parent[u])
+    return parent[u]
+```
+
+This optimizes the tree structure, making the tree shallower and speeding up future operations.
+
+#### Textual Visualization of a Tree with Path Compression
+
+Before path compression, a tree might look like this, where the root node has children that are also roots of their own subtrees:
+
+```plaintext
+    root
+   / | | \
+ ... ... ...
+```
+
+After path compression, the tree is flattened:
+
+```plaintext
+root
+|
+node - node - node - node
+```
+
+Every node directly points to the root node after path compression.
+
+#### Time Complexity Analysis
+
+- Without path compression: \( O(\log n) \) for `Find`
+- With path compression: \( O(\log n) \) for `Find`, where \( \log n \) is the iterated logarithm, indicating the number of times the logarithm function must be applied before the result is less than or equal to 1.
+- Union operations have a time complexity of \( O(1) \).
+
+---
+
+### Cycle Detection and Connected Components in Graphs
+
+Union-Find data structure is also useful for cycle detection in undirected graphs.
+
+#### Pseudocode for Cycle Detection
+
+```C
+function hasCycle(graph)
+    foreach edge (u, v) in graph.E
+        uRoot = Find(u)
+        vRoot = Find(v)
+        if uRoot == vRoot
+            return true  // Cycle detected
+        else
+            Union(uRoot, vRoot)
+    return false  // No cycles found
+```
+
+#### Connected Components Identification
+
+For finding connected components in an undirected graph:
+
+```C
+function findConnectedComponents(graph)
+    foreach edge (u, v) in graph.E
+        Union(Find(u), Find(v))
+
+    if find(u) == find(v): same connected component
+    if find(u) ≠ find(v): different connected components
+
+// After the above, nodes with the same root are in the same connected component.
+```
+
+Time complexity for cycle detection and connected components identification typically relies on the efficiency of `Union` and `Find` operations, which can be \( O(m \log n) \) or better with path compression and union by rank, where \( m \) is the number of edges and \( n \) is the number of vertices.
+
+---
+
+### Kruskal's Algorithm Example
+
+An example of applying Kruskal's algorithm on a graph:
+
+```mermaid
+graph LR
+    A((A)) -- 3 --> B((B))
+    B -- 1 --> C((C))
+    C -- 5 --> D((D))
+    D -- 4 --> A
+    A -- 6 --> C
+    B -- 7 --> D
+```
+
+### Pseudocode for Kruskal's Algorithm with Time Complexity
+
+```C
+function KruskalMST(graph)
+    T = {}  // MST edges set
+    edges = Sort(graph.E)  // Sort edges by weight
+    foreach (u, v) in edges
+        if not formsCycle(T, (u, v))
+            T = T ∪ {(u, v)}
+    return T
+```
+
+- Time complexity for sorting edges: \( O(E \log E) \).
+- Time complexity for union-find operations: \( O(E \log n) \).
+
+The overall time complexity of Kruskal's algorithm: \( O(E \log E) \) due to the sort.
+
+---
+
+### Event Scheduling Problem
+
+The Event Scheduling Problem is an application of greedy algorithms where we have \( n \) events, each with a start time \( s_i \) and finish time \( f_i \), and we wish to find the maximum number of non-overlapping events that can be scheduled in one room.
+
+#### Intuitive Approaches
+
+1. Sort events by duration (\( f_i - s_i \)): not always optimal.
+2. Sort by finish time (\( f_i \)): leads to an optimal solution, selecting the event that finishes first allows more room for later events.
+3. Sort by start time (\( s_i \)): not always optimal.
+4. Sort by the number of conflicts: not always optimal.
+
+#### Optimal Solution
+
+The greedy choice property leads us to choose the event with the earliest finish time first, which provides the optimal solution. After selecting an event, we remove all incompatible events and repeat the selection process.
