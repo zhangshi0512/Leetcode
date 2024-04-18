@@ -200,3 +200,152 @@ In this example, we would first add the edge from C to D, followed by the edge f
 In the context of MST algorithms, a 'safe' edge is an edge with the minimum weight that crosses the cut and does not form a cycle.
 
 ---
+
+### Union-Find Data Structure for Disjoint Sets
+
+The Union-Find data structure is crucial for efficiently managing the union and find operations on disjoint sets, especially useful in Kruskal's algorithm for finding the Minimum Spanning Tree (MST) in a graph.
+
+#### Disjoint Sets - Logical and Physical View
+
+Disjoint sets can be represented logically as separate groups or subsets of nodes. Physically, this is often implemented using an array where each element has a pointer to its parent, or to itself if it is the root of its set.
+
+#### Logical View of Disjoint Sets:
+
+```mermaid
+graph TD
+    subgraph S1
+        1 ---> 2
+        3 ---> 2
+    end
+    subgraph S2
+        5 --> 4
+    end
+    subgraph S3
+        6
+    end
+```
+
+#### Physical View of Disjoint Sets (using an array):
+
+| Index | Parent |
+| ----- | ------ |
+| 1     | 2      |
+| 2     | 2      |
+| 3     | 2      |
+| 4     | 4      |
+| 5     | 4      |
+| 6     | 6      |
+
+## Pseudocode for the Find and Union Operations
+
+```C
+function Find(u)
+    if parent[u] == u
+        return u
+    else
+        return Find(parent[u])
+
+function Union(u, v)
+    uSet = Find(u)
+    vSet = Find(v)
+    parent[uSet] = vSet
+```
+
+The running time for the `Find` function is \( O(h) \), where \( h \) is the height of the tree.
+
+## Optimization with Union by Rank and Path Compression
+
+The Union-Find structure can be enhanced with two optimizations: union by rank and path compression. These strategies are used to improve the efficiency of finding the representative of a set (find operation) and the merging of two sets (union operation).
+
+### Rank
+
+The rank of a tree is a measure of its height. When uniting two sets, the root with a higher rank becomes the parent, ensuring the resulting tree's height is minimized.
+
+```C
+function Union(u, v)
+    rootU = Find(u)
+    rootV = Find(v)
+    if rank[rootU] > rank[rootV]
+        parent[rootV] = rootU
+    else if rank[rootU] < rank[rootV]
+        parent[rootU] = rootV
+    else
+        parent[rootU] = rootV
+        rank[rootV] += 1
+
+function Find(u)
+    if u != parent[u]
+        parent[u] = Find(parent[u])
+    return parent[u]
+```
+
+In this pseudocode, rank is an array that holds the rank (height) of each tree, and parent is an array that points to the parent of each node (or to itself if it's the root). The Find function locates the representative of a set and uses path compression.
+
+### Path Compression
+
+Path compression is an optimization for the Find operation. During a find, we make each node on the path from the found node to the root point directly to the root, flattening the structure of the tree and making future operations faster.
+
+#### Pseudocode for Find with Path Compression
+
+```C
+function Find(u)
+    if parent[u] != u
+        parent[u] = Find(parent[u])
+    return parent[u]
+```
+
+The path compression optimizes the structure such that all nodes along the path are directly connected to the root, flattening the tree and reducing the time complexity of subsequent find operations.
+
+#### Time Complexity Analysis
+
+With these optimizations, both the Find and Union operations can be performed in O(logn) time on average, and even better, they can achieve O(α(n)) amortized time complexity, where α(n) is the inverse Ackermann function, which grows very slowly and is effectively constant for all practical values of n.
+
+#### Claim and Proof
+
+There is a claim related to the rank of a tree: If rank[u] = k, then the number of nodes in the tree rooted at u is at least \(2^k\).
+
+Below is a representation of the two trees of rank `k` that are joined to form a new tree of rank `k+1`.
+
+```plaintext
+Before Union Operation:
+Tree of rank k:
+       w
+      /|\
+     / | \
+  ...  ... ...
+ (2^k-1 nodes)
+
+Tree of rank k-1:
+      w
+      |
+      x
+     / \
+   ... ...
+
+After Union Operation:
+New Tree of rank k+1:
+       w
+      / \
+     /   \
+    x     x
+   / \   / \
+ ... ... ... ...
+(2 * 2^k-1 nodes)
+```
+
+The `w` represents the root of the tree with rank `k`, and `x` represents the roots of the two subtrees with rank `k-1` that are joined under `w` to form the new tree with rank `k+1`.
+
+For the specific case of the rank being `0`, the tree is just a single node with no children, representing the base case for the induction:
+
+```plaintext
+Tree of rank 0:
+ w
+```
+
+This tree contains a single node, which matches the claim since \( 2^0 = 1 \).
+
+Each time we perform a union operation by rank, we ensure that the height of the tree increases only when two trees of equal rank are united, which helps keep the trees balanced and the operations efficient.
+
+This can be proven by induction, and it supports the notion that using rank can help keep the trees shallow and the operations efficient.
+
+---
